@@ -377,7 +377,7 @@ const submitForm = () => {
 :deep(.el-tree-node__content) {
   height: auto;
   min-height: 40px;
-  padding: 8px 12px;
+  padding: 12px 20px;
   margin: 4px 0;
   border-radius: 8px;
   background: #fafafa;
