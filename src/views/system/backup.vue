@@ -3,8 +3,16 @@
     <div class="header">
       <h1>系统备份</h1>
       <div>
-        <el-button type="primary" @click="handleManualBackup">立即备份</el-button>
-        <el-button :icon="Refresh" @click="handleRefresh" />
+        <el-button
+          type="primary"
+          @click="handleManualBackup"
+        >
+          立即备份
+        </el-button>
+        <el-button
+          :icon="Refresh"
+          @click="handleRefresh"
+        />
       </div>
     </div>
 
@@ -18,13 +26,29 @@
         </template>
         <el-form label-width="150px">
           <el-form-item label="自动备份">
-            <el-switch v-model="config.autoBackup" @change="updateConfig" />
+            <el-switch
+              v-model="config.autoBackup"
+              @change="updateConfig"
+            />
           </el-form-item>
           <el-form-item label="备份频率">
-            <el-select v-model="config.frequency" placeholder="请选择备份频率" @change="updateConfig">
-              <el-option label="每日" value="daily" />
-              <el-option label="每周" value="weekly" />
-              <el-option label="每月" value="monthly" />
+            <el-select
+              v-model="config.frequency"
+              placeholder="请选择备份频率"
+              @change="updateConfig"
+            >
+              <el-option
+                label="每日"
+                value="daily"
+              />
+              <el-option
+                label="每周"
+                value="weekly"
+              />
+              <el-option
+                label="每月"
+                value="monthly"
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="备份时间">
@@ -40,23 +64,51 @@
             />
           </el-form-item>
           <el-form-item label="备份保留数量">
-            <el-input-number v-model="config.retentionCount" :min="1" :max="100" @change="updateConfig" />
+            <el-input-number
+              v-model="config.retentionCount"
+              :min="1"
+              :max="100"
+              @change="updateConfig"
+            />
             <span class="unit">个备份文件</span>
           </el-form-item>
           <el-form-item label="备份存储位置">
-            <el-input v-model="config.storagePath" placeholder="请输入备份存储路径" />
-            <el-button type="primary" link @click="browseStoragePath">浏览</el-button>
+            <el-input
+              v-model="config.storagePath"
+              placeholder="请输入备份存储路径"
+            />
+            <el-button
+              type="primary"
+              link
+              @click="browseStoragePath"
+            >
+              浏览
+            </el-button>
           </el-form-item>
           <el-form-item label="备份内容">
-            <el-checkbox-group v-model="config.backupItems" @change="updateConfig">
-              <el-checkbox value="database">数据库</el-checkbox>
-              <el-checkbox value="files">文件系统</el-checkbox>
-              <el-checkbox value="logs">系统日志</el-checkbox>
-              <el-checkbox value="configs">配置文件</el-checkbox>
+            <el-checkbox-group
+              v-model="config.backupItems"
+              @change="updateConfig"
+            >
+              <el-checkbox value="database">
+                数据库
+              </el-checkbox>
+              <el-checkbox value="files">
+                文件系统
+              </el-checkbox>
+              <el-checkbox value="logs">
+                系统日志
+              </el-checkbox>
+              <el-checkbox value="configs">
+                配置文件
+              </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="备份前通知">
-            <el-switch v-model="config.preBackupNotification" @change="updateConfig" />
+            <el-switch
+              v-model="config.preBackupNotification"
+              @change="updateConfig"
+            />
           </el-form-item>
         </el-form>
       </el-card>
@@ -74,15 +126,30 @@
             style="width: 100%;"
             row-key="id"
           >
-            <el-table-column prop="name" label="任务名称" width="180" />
-            <el-table-column prop="type" label="类型" width="100">
+            <el-table-column
+              prop="name"
+              label="任务名称"
+              width="180"
+            />
+            <el-table-column
+              prop="type"
+              label="类型"
+              width="100"
+            >
               <template #default="{ row }">
-                <el-tag :type="row.type === '手动' ? 'primary' : 'success'" size="small">
+                <el-tag
+                  :type="row.type === '手动' ? 'primary' : 'success'"
+                  size="small"
+                >
                   {{ row.type }}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="status" label="状态" width="120">
+            <el-table-column
+              prop="status"
+              label="状态"
+              width="120"
+            >
               <template #default="{ row }">
                 <el-tag
                   :type="row.status === '成功' ? 'success' : row.status === '失败' ? 'danger' : 'info'"
@@ -92,23 +159,66 @@
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="size" label="大小" width="100">
+            <el-table-column
+              prop="size"
+              label="大小"
+              width="100"
+            >
               <template #default="{ row }">
                 {{ formatFileSize(row.size) }}
               </template>
             </el-table-column>
-            <el-table-column prop="startTime" label="开始时间" width="160" />
-            <el-table-column prop="endTime" label="结束时间" width="160" />
-            <el-table-column prop="duration" label="耗时" width="100">
+            <el-table-column
+              prop="startTime"
+              label="开始时间"
+              width="160"
+            />
+            <el-table-column
+              prop="endTime"
+              label="结束时间"
+              width="160"
+            />
+            <el-table-column
+              prop="duration"
+              label="耗时"
+              width="100"
+            >
               <template #default="{ row }">
                 {{ formatDuration(row.duration) }}
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="200" fixed="right">
+            <el-table-column
+              label="操作"
+              width="200"
+              fixed="right"
+            >
               <template #default="{ row }">
-                <el-button size="small" type="primary" link @click="handleDownload(row)" :disabled="row.status !== '成功'">下载</el-button>
-                <el-button size="small" type="primary" link @click="handleRestore(row)" :disabled="row.status !== '成功'">恢复</el-button>
-                <el-button size="small" type="danger" link @click="handleDelete(row)">删除</el-button>
+                <el-button
+                  size="small"
+                  type="primary"
+                  link
+                  :disabled="row.status !== '成功'"
+                  @click="handleDownload(row)"
+                >
+                  下载
+                </el-button>
+                <el-button
+                  size="small"
+                  type="primary"
+                  link
+                  :disabled="row.status !== '成功'"
+                  @click="handleRestore(row)"
+                >
+                  恢复
+                </el-button>
+                <el-button
+                  size="small"
+                  type="danger"
+                  link
+                  @click="handleDelete(row)"
+                >
+                  删除
+                </el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -134,7 +244,10 @@
       >
         <el-form label-width="100px">
           <el-form-item label="备份名称">
-            <el-input v-model="manualBackupForm.name" placeholder="请输入备份名称" />
+            <el-input
+              v-model="manualBackupForm.name"
+              placeholder="请输入备份名称"
+            />
           </el-form-item>
           <el-form-item label="备份描述">
             <el-input
@@ -148,16 +261,27 @@
           </el-form-item>
           <el-form-item label="备份内容">
             <el-checkbox-group v-model="manualBackupForm.items">
-              <el-checkbox value="database">数据库</el-checkbox>
-              <el-checkbox value="files">文件系统</el-checkbox>
-              <el-checkbox value="logs">系统日志</el-checkbox>
-              <el-checkbox value="configs">配置文件</el-checkbox>
+              <el-checkbox value="database">
+                数据库
+              </el-checkbox>
+              <el-checkbox value="files">
+                文件系统
+              </el-checkbox>
+              <el-checkbox value="logs">
+                系统日志
+              </el-checkbox>
+              <el-checkbox value="configs">
+                配置文件
+              </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="立即备份">
             <el-switch v-model="manualBackupForm.immediate" />
           </el-form-item>
-          <el-form-item v-if="!manualBackupForm.immediate" label="计划时间">
+          <el-form-item
+            v-if="!manualBackupForm.immediate"
+            label="计划时间"
+          >
             <el-date-picker
               v-model="manualBackupForm.scheduledTime"
               type="datetime"
@@ -169,7 +293,11 @@
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="manualBackupDialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="submitManualBackup" :loading="backupLoading">开始备份</el-button>
+            <el-button
+              type="primary"
+              :loading="backupLoading"
+              @click="submitManualBackup"
+            >开始备份</el-button>
           </span>
         </template>
       </el-dialog>

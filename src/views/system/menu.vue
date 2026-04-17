@@ -6,8 +6,16 @@
         <el-button @click="toggleExpand">
           {{ allExpanded ? '折叠全部' : '展开全部' }}
         </el-button>
-        <el-button type="primary" @click="handleAddRoot">添加根菜单</el-button>
-        <el-button :icon="Refresh" @click="handleRefresh" />
+        <el-button
+          type="primary"
+          @click="handleAddRoot"
+        >
+          添加根菜单
+        </el-button>
+        <el-button
+          :icon="Refresh"
+          @click="handleRefresh"
+        />
       </div>
     </div>
 
@@ -32,24 +40,61 @@
             class="menu-tree"
           >
             <template #default="{ node, data }">
-              <div class="custom-tree-node" @dblclick="node.expanded = !node.expanded">
+              <div
+                class="custom-tree-node"
+                @dblclick="node.expanded = !node.expanded"
+              >
                 <div class="node-info">
                   <div class="node-main">
-                    <el-icon v-if="data.icon" :size="18" class="node-icon">
+                    <el-icon
+                      v-if="data.icon"
+                      :size="18"
+                      class="node-icon"
+                    >
                       <component :is="data.icon" />
                     </el-icon>
                     <span class="node-name">{{ data.name }}</span>
-                    <el-tag v-if="data.code" size="small" type="info" class="node-code">{{ data.code }}</el-tag>
+                    <el-tag
+                      v-if="data.code"
+                      size="small"
+                      type="info"
+                      class="node-code"
+                    >
+                      {{ data.code }}
+                    </el-tag>
                   </div>
                   <div class="node-meta">
-                    <span v-if="data.route" class="node-route">{{ data.route }}</span>
-                    <span v-if="data.sort !== undefined" class="node-sort">排序: {{ data.sort }}</span>
+                    <span
+                      v-if="data.route"
+                      class="node-route"
+                    >{{ data.route }}</span>
+                    <span
+                      v-if="data.sort !== undefined"
+                      class="node-sort"
+                    >排序: {{ data.sort }}</span>
                   </div>
                 </div>
                 <div class="node-actions">
-                  <el-button size="small" type="primary" @click="handleAddChild(data)">添加</el-button>
-                  <el-button size="small" @click="handleEdit(data)">编辑</el-button>
-                  <el-button size="small" type="danger" @click="handleDelete(data)">删除</el-button>
+                  <el-button
+                    size="small"
+                    type="primary"
+                    @click="handleAddChild(data)"
+                  >
+                    添加
+                  </el-button>
+                  <el-button
+                    size="small"
+                    @click="handleEdit(data)"
+                  >
+                    编辑
+                  </el-button>
+                  <el-button
+                    size="small"
+                    type="danger"
+                    @click="handleDelete(data)"
+                  >
+                    删除
+                  </el-button>
                 </div>
               </div>
             </template>
@@ -64,24 +109,59 @@
       :title="dialogTitle"
       width="560px"
     >
-      <el-form :model="menuForm" :rules="rules" ref="menuFormRef" label-width="80px">
-        <el-form-item label="菜单名称" prop="name">
-          <el-input v-model="menuForm.name" placeholder="请输入菜单名称" />
+      <el-form
+        ref="menuFormRef"
+        :model="menuForm"
+        :rules="rules"
+        label-width="80px"
+      >
+        <el-form-item
+          label="菜单名称"
+          prop="name"
+        >
+          <el-input
+            v-model="menuForm.name"
+            placeholder="请输入菜单名称"
+          />
         </el-form-item>
-        <el-form-item label="编码" prop="code">
-          <el-input v-model="menuForm.code" placeholder="请输入菜单编码（如：system.users）" />
+        <el-form-item
+          label="编码"
+          prop="code"
+        >
+          <el-input
+            v-model="menuForm.code"
+            placeholder="请输入菜单编码（如：system.users）"
+          />
         </el-form-item>
-        <el-form-item label="图标" prop="icon">
-          <el-input v-model="menuForm.icon" placeholder="请选择或输入图标名称" clearable>
+        <el-form-item
+          label="图标"
+          prop="icon"
+        >
+          <el-input
+            v-model="menuForm.icon"
+            placeholder="请选择或输入图标名称"
+            clearable
+          >
             <template #prefix>
-              <el-icon v-if="menuForm.icon" :size="16">
+              <el-icon
+                v-if="menuForm.icon"
+                :size="16"
+              >
                 <component :is="menuForm.icon" />
               </el-icon>
             </template>
             <template #suffix>
-              <el-popover placement="bottom-end" :width="320" trigger="click">
+              <el-popover
+                placement="bottom-end"
+                :width="320"
+                trigger="click"
+              >
                 <template #reference>
-                  <el-button text size="small" :icon="MoreFilled" />
+                  <el-button
+                    text
+                    size="small"
+                    :icon="MoreFilled"
+                  />
                 </template>
                 <div class="icon-picker-grid">
                   <div
@@ -101,13 +181,29 @@
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item label="路径" prop="route">
-          <el-input v-model="menuForm.route" placeholder="请输入路由路径（如：/users）" />
+        <el-form-item
+          label="路径"
+          prop="route"
+        >
+          <el-input
+            v-model="menuForm.route"
+            placeholder="请输入路由路径（如：/users）"
+          />
         </el-form-item>
-        <el-form-item label="排序" prop="sort">
-          <el-input-number v-model="menuForm.sort" :min="0" style="width: 100%;" />
+        <el-form-item
+          label="排序"
+          prop="sort"
+        >
+          <el-input-number
+            v-model="menuForm.sort"
+            :min="0"
+            style="width: 100%;"
+          />
         </el-form-item>
-        <el-form-item label="父菜单" prop="parentId">
+        <el-form-item
+          label="父菜单"
+          prop="parentId"
+        >
           <el-tree-select
             v-model="menuForm.parentId"
             :data="menuTreeData"
@@ -122,7 +218,10 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="submitForm">确定</el-button>
+          <el-button
+            type="primary"
+            @click="submitForm"
+          >确定</el-button>
         </span>
       </template>
     </el-dialog>

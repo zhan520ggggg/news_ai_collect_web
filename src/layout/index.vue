@@ -7,9 +7,18 @@
         :width="sidebarCollapsed ? '64px' : '200px'"
       >
         <div class="logo">
-          <img v-if="!sidebarCollapsed" :src="logoImg" class="logo-img" alt="logo" />
-          <h1 v-if="!sidebarCollapsed">采集分析Claw</h1>
-          <h1 v-else>管理</h1>
+          <img
+            v-if="!sidebarCollapsed"
+            :src="logoImg"
+            class="logo-img"
+            alt="logo"
+          >
+          <h1 v-if="!sidebarCollapsed">
+            采集分析Claw
+          </h1>
+          <h1 v-else>
+            管理
+          </h1>
         </div>
         <el-menu
           :default-active="activeMenu"
@@ -22,9 +31,15 @@
         >
           <!-- 动态菜单渲染 -->
           <template v-if="hasDynamicMenus">
-            <template v-for="menu in dynamicMenuItems" :key="menu.index">
+            <template
+              v-for="menu in dynamicMenuItems"
+              :key="menu.index"
+            >
               <!-- 有子菜单的情况 -->
-              <el-sub-menu v-if="menu.children && menu.children.length > 0" :index="menu.index">
+              <el-sub-menu
+                v-if="menu.children && menu.children.length > 0"
+                :index="menu.index"
+              >
                 <template #title>
                   <el-icon v-if="menu.icon">
                     <component :is="getIconComponent(menu.icon)" />
@@ -39,23 +54,36 @@
                   <el-icon v-if="child.icon">
                     <component :is="getIconComponent(child.icon)" />
                   </el-icon>
-                  <template #title>{{ child.title }}</template>
+                  <template #title>
+                    {{ child.title }}
+                  </template>
                 </el-menu-item>
               </el-sub-menu>
               <!-- 没有子菜单的情况 -->
-              <el-menu-item v-else :index="menu.index">
+              <el-menu-item
+                v-else
+                :index="menu.index"
+              >
                 <el-icon v-if="menu.icon">
                   <component :is="getIconComponent(menu.icon)" />
                 </el-icon>
-                <template #title>{{ menu.title }}</template>
+                <template #title>
+                  {{ menu.title }}
+                </template>
               </el-menu-item>
             </template>
           </template>
           <!-- 没有动态菜单时显示过滤后的默认菜单 -->
           <template v-else>
-            <template v-for="menu in defaultMenuItems" :key="menu.index">
+            <template
+              v-for="menu in defaultMenuItems"
+              :key="menu.index"
+            >
               <!-- 子菜单 -->
-              <el-sub-menu v-if="menu.type === 'submenu'" :index="menu.index">
+              <el-sub-menu
+                v-if="menu.type === 'submenu'"
+                :index="menu.index"
+              >
                 <template #title>
                   <el-icon>
                     <component :is="getIconComponent(menu.icon)" />
@@ -67,15 +95,22 @@
                   :key="child.index"
                   :index="child.index"
                 >
-                  <template #title>{{ child.title }}</template>
+                  <template #title>
+                    {{ child.title }}
+                  </template>
                 </el-menu-item>
               </el-sub-menu>
               <!-- 普通菜单项 -->
-              <el-menu-item v-else :index="menu.index">
+              <el-menu-item
+                v-else
+                :index="menu.index"
+              >
                 <el-icon>
                   <component :is="getIconComponent(menu.icon)" />
                 </el-icon>
-                <template #title>{{ menu.title }}</template>
+                <template #title>
+                  {{ menu.title }}
+                </template>
               </el-menu-item>
             </template>
           </template>
@@ -92,7 +127,9 @@
               @click="toggleSidebar"
             />
             <el-breadcrumb separator="/">
-              <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+              <el-breadcrumb-item :to="{ path: '/' }">
+                首页
+              </el-breadcrumb-item>
               <el-breadcrumb-item v-if="$route.meta.title">
                 {{ $route.meta.title }}
               </el-breadcrumb-item>
@@ -101,21 +138,37 @@
           <div class="header-right">
             <el-dropdown>
               <div class="user-info">
-                <el-avatar :size="32" :src="userAvatar" />
+                <el-avatar
+                  :size="32"
+                  :src="userAvatar"
+                />
                 <div class="user-details">
                   <span class="username">{{ username }}</span>
-                  <span v-if="primaryRole" class="user-role">
-                    <el-tag size="small" type="success">{{ primaryRole }}</el-tag>
+                  <span
+                    v-if="primaryRole"
+                    class="user-role"
+                  >
+                    <el-tag
+                      size="small"
+                      type="success"
+                    >{{ primaryRole }}</el-tag>
                   </span>
                 </div>
               </div>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item @click="goProfile">个人中心</el-dropdown-item>
+                  <el-dropdown-item @click="goProfile">
+                    个人中心
+                  </el-dropdown-item>
                   <el-dropdown-item @click="toggleTheme">
                     {{ theme === 'light' ? '切换到暗黑模式' : '切换到明亮模式' }}
                   </el-dropdown-item>
-                  <el-dropdown-item divided @click="handleLogout">退出登录</el-dropdown-item>
+                  <el-dropdown-item
+                    divided
+                    @click="handleLogout"
+                  >
+                    退出登录
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>

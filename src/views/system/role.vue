@@ -2,7 +2,12 @@
   <div class="roles">
     <div class="header">
       <h1>角色管理</h1>
-      <el-button type="primary" @click="handleAddRole">添加角色</el-button>
+      <el-button
+        type="primary"
+        @click="handleAddRole"
+      >
+        添加角色
+      </el-button>
     </div>
 
     <el-card>
@@ -17,17 +22,32 @@
             @keyup.enter="handleSearch"
           >
             <template #append>
-              <el-button :icon="Search" @click="handleSearch" />
+              <el-button
+                :icon="Search"
+                @click="handleSearch"
+              />
             </template>
           </el-input>
           <div>
-            <el-button :icon="Refresh" @click="handleRefresh" />
+            <el-button
+              :icon="Refresh"
+              @click="handleRefresh"
+            />
           </div>
         </div>
       </template>
-      <el-table :data="filteredRoles" v-loading="loading">
-        <el-table-column prop="name" label="角色名称" />
-        <el-table-column prop="code" label="角色代码" />
+      <el-table
+        v-loading="loading"
+        :data="filteredRoles"
+      >
+        <el-table-column
+          prop="name"
+          label="角色名称"
+        />
+        <el-table-column
+          prop="code"
+          label="角色代码"
+        />
         <el-table-column label="菜单权限">
           <template #default="{ row }">
             <el-tag
@@ -46,11 +66,30 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200">
+        <el-table-column
+          label="操作"
+          width="200"
+        >
           <template #default="{ row }">
-            <el-button size="small" @click="handleEdit(row)">编辑</el-button>
-            <el-button size="small" @click="handleSetPermissions(row)">权限</el-button>
-            <el-button size="small" type="danger" @click="handleDelete(row)">删除</el-button>
+            <el-button
+              size="small"
+              @click="handleEdit(row)"
+            >
+              编辑
+            </el-button>
+            <el-button
+              size="small"
+              @click="handleSetPermissions(row)"
+            >
+              权限
+            </el-button>
+            <el-button
+              size="small"
+              type="danger"
+              @click="handleDelete(row)"
+            >
+              删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -62,18 +101,38 @@
       :title="roleDialogTitle"
       width="500px"
     >
-      <el-form :model="roleForm" :rules="roleRules" ref="roleFormRef" label-width="80px">
-        <el-form-item label="角色名称" prop="name">
-          <el-input v-model="roleForm.name" placeholder="请输入角色名称" />
+      <el-form
+        ref="roleFormRef"
+        :model="roleForm"
+        :rules="roleRules"
+        label-width="80px"
+      >
+        <el-form-item
+          label="角色名称"
+          prop="name"
+        >
+          <el-input
+            v-model="roleForm.name"
+            placeholder="请输入角色名称"
+          />
         </el-form-item>
-        <el-form-item label="角色代码" prop="code">
-          <el-input v-model="roleForm.code" placeholder="请输入角色代码（英文）" />
+        <el-form-item
+          label="角色代码"
+          prop="code"
+        >
+          <el-input
+            v-model="roleForm.code"
+            placeholder="请输入角色代码（英文）"
+          />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="roleDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="submitRoleForm">确定</el-button>
+          <el-button
+            type="primary"
+            @click="submitRoleForm"
+          >确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -100,7 +159,10 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="permDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="savePermissions">保存权限</el-button>
+          <el-button
+            type="primary"
+            @click="savePermissions"
+          >保存权限</el-button>
         </span>
       </template>
     </el-dialog>

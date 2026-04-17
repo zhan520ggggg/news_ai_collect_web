@@ -144,15 +144,6 @@ VITE_API_BASE_URL=/api
 
 ## 🔗 后端 API 集成
 
-本项目已与位于 `D:\Code\ClaudeCodeWebApi` 的 .NET Web API 项目集成。所有前端 API 模块已根据后端控制器接口进行配置。
-
-### 已集成的后端控制器
-1. **AuthController** (`/api/auth`) - 用户认证（登录、注册、获取当前用户）
-2. **UsersController** (`/api/users`) - 用户管理（CRUD 操作）
-3. **ProductsController** (`/api/products`) - 产品管理（CRUD 操作）
-4. **RolesController** (`/api/roles`) - 角色管理（角色菜单分配）
-5. **MenusController** (`/api/menus`) - 菜单管理（菜单树操作）
-
 ### 前端 API 模块
 - `src/api/modules/auth.ts` - 认证相关 API
 - `src/api/modules/user.ts` - 用户管理 API

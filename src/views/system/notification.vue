@@ -3,33 +3,85 @@
     <div class="header">
       <h1>系统通知</h1>
       <div>
-        <el-button type="primary" @click="handleSendNotification">发送通知</el-button>
-        <el-button @click="markAllAsRead">全部标记已读</el-button>
-        <el-button :icon="Refresh" @click="handleRefresh" />
+        <el-button
+          type="primary"
+          @click="handleSendNotification"
+        >
+          发送通知
+        </el-button>
+        <el-button @click="markAllAsRead">
+          全部标记已读
+        </el-button>
+        <el-button
+          :icon="Refresh"
+          @click="handleRefresh"
+        />
       </div>
     </div>
 
     <div class="content">
       <!-- 通知类型筛选 -->
       <div class="filter-section">
-        <el-radio-group v-model="activeTab" @change="handleTabChange">
-          <el-radio-button label="all">全部通知</el-radio-button>
-          <el-radio-button label="unread">未读通知</el-radio-button>
-          <el-radio-button label="important">重要通知</el-radio-button>
-          <el-radio-button label="system">系统通知</el-radio-button>
-          <el-radio-button label="user">用户消息</el-radio-button>
+        <el-radio-group
+          v-model="activeTab"
+          @change="handleTabChange"
+        >
+          <el-radio-button label="all">
+            全部通知
+          </el-radio-button>
+          <el-radio-button label="unread">
+            未读通知
+          </el-radio-button>
+          <el-radio-button label="important">
+            重要通知
+          </el-radio-button>
+          <el-radio-button label="system">
+            系统通知
+          </el-radio-button>
+          <el-radio-button label="user">
+            用户消息
+          </el-radio-button>
         </el-radio-group>
         <div class="filter-actions">
-          <el-select v-model="filterType" placeholder="按类型筛选" clearable>
-            <el-option label="消息提醒" value="message" />
-            <el-option label="任务提醒" value="task" />
-            <el-option label="系统警报" value="alert" />
-            <el-option label="更新提醒" value="update" />
+          <el-select
+            v-model="filterType"
+            placeholder="按类型筛选"
+            clearable
+          >
+            <el-option
+              label="消息提醒"
+              value="message"
+            />
+            <el-option
+              label="任务提醒"
+              value="task"
+            />
+            <el-option
+              label="系统警报"
+              value="alert"
+            />
+            <el-option
+              label="更新提醒"
+              value="update"
+            />
           </el-select>
-          <el-select v-model="filterStatus" placeholder="按状态筛选" clearable>
-            <el-option label="未读" value="unread" />
-            <el-option label="已读" value="read" />
-            <el-option label="已处理" value="handled" />
+          <el-select
+            v-model="filterStatus"
+            placeholder="按状态筛选"
+            clearable
+          >
+            <el-option
+              label="未读"
+              value="unread"
+            />
+            <el-option
+              label="已读"
+              value="read"
+            />
+            <el-option
+              label="已处理"
+              value="handled"
+            />
           </el-select>
           <el-date-picker
             v-model="filterDateRange"
@@ -53,10 +105,16 @@
           </div>
         </template>
         <div v-loading="loading">
-          <div v-if="filteredNotifications.length === 0" class="empty-notification">
+          <div
+            v-if="filteredNotifications.length === 0"
+            class="empty-notification"
+          >
             <el-empty description="暂无通知" />
           </div>
-          <div v-else class="notification-list">
+          <div
+            v-else
+            class="notification-list"
+          >
             <div
               v-for="item in paginatedNotifications"
               :key="item.id"
@@ -69,7 +127,10 @@
             >
               <div class="notification-icon">
                 <el-badge :is-dot="item.status === 'unread'">
-                  <el-icon :size="20" :color="getNotificationColor(item.type)">
+                  <el-icon
+                    :size="20"
+                    :color="getNotificationColor(item.type)"
+                  >
                     <component :is="getNotificationIcon(item.type)" />
                   </el-icon>
                 </el-badge>
@@ -78,17 +139,36 @@
                 <div class="notification-header">
                   <div class="notification-title">
                     <span class="title-text">{{ item.title }}</span>
-                    <el-tag v-if="item.important" size="small" type="danger">重要</el-tag>
-                    <el-tag v-if="item.status === 'unread'" size="small" type="info">未读</el-tag>
-                    <el-tag size="small">{{ getTypeLabel(item.type) }}</el-tag>
+                    <el-tag
+                      v-if="item.important"
+                      size="small"
+                      type="danger"
+                    >
+                      重要
+                    </el-tag>
+                    <el-tag
+                      v-if="item.status === 'unread'"
+                      size="small"
+                      type="info"
+                    >
+                      未读
+                    </el-tag>
+                    <el-tag size="small">
+                      {{ getTypeLabel(item.type) }}
+                    </el-tag>
                   </div>
                   <div class="notification-time">
                     {{ formatTime(item.createdAt) }}
                   </div>
                 </div>
                 <div class="notification-body">
-                  <p class="notification-message">{{ item.message }}</p>
-                  <div v-if="item.details" class="notification-details">
+                  <p class="notification-message">
+                    {{ item.message }}
+                  </p>
+                  <div
+                    v-if="item.details"
+                    class="notification-details"
+                  >
                     <el-collapse>
                       <el-collapse-item title="详情信息">
                         <pre>{{ item.details }}</pre>
@@ -101,10 +181,37 @@
                     发送者：{{ item.sender }}
                   </div>
                   <div class="notification-actions">
-                    <el-button v-if="item.status === 'unread'" size="small" link @click.stop="markAsRead(item)">标记已读</el-button>
-                    <el-button v-if="item.type === 'task'" size="small" link @click.stop="handleTaskAction(item)">查看任务</el-button>
-                    <el-button v-if="item.important" size="small" link @click.stop="handleImportantAction(item)">重要处理</el-button>
-                    <el-button size="small" link @click.stop="handleDelete(item)">删除</el-button>
+                    <el-button
+                      v-if="item.status === 'unread'"
+                      size="small"
+                      link
+                      @click.stop="markAsRead(item)"
+                    >
+                      标记已读
+                    </el-button>
+                    <el-button
+                      v-if="item.type === 'task'"
+                      size="small"
+                      link
+                      @click.stop="handleTaskAction(item)"
+                    >
+                      查看任务
+                    </el-button>
+                    <el-button
+                      v-if="item.important"
+                      size="small"
+                      link
+                      @click.stop="handleImportantAction(item)"
+                    >
+                      重要处理
+                    </el-button>
+                    <el-button
+                      size="small"
+                      link
+                      @click.stop="handleDelete(item)"
+                    >
+                      删除
+                    </el-button>
                   </div>
                 </div>
               </div>
@@ -131,11 +238,25 @@
         title="发送通知"
         width="600px"
       >
-        <el-form :model="sendForm" :rules="sendRules" ref="sendFormRef" label-width="100px">
-          <el-form-item label="通知标题" prop="title">
-            <el-input v-model="sendForm.title" placeholder="请输入通知标题" />
+        <el-form
+          ref="sendFormRef"
+          :model="sendForm"
+          :rules="sendRules"
+          label-width="100px"
+        >
+          <el-form-item
+            label="通知标题"
+            prop="title"
+          >
+            <el-input
+              v-model="sendForm.title"
+              placeholder="请输入通知标题"
+            />
           </el-form-item>
-          <el-form-item label="通知内容" prop="message">
+          <el-form-item
+            label="通知内容"
+            prop="message"
+          >
             <el-input
               v-model="sendForm.message"
               type="textarea"
@@ -145,26 +266,58 @@
               show-word-limit
             />
           </el-form-item>
-          <el-form-item label="接收对象" prop="recipients">
+          <el-form-item
+            label="接收对象"
+            prop="recipients"
+          >
             <el-select
               v-model="sendForm.recipients"
               multiple
               placeholder="请选择接收对象"
             >
-              <el-option value="all" label="所有用户" />
-              <el-option value="superadmin" label="超级管理员" />
-              <el-option value="admin" label="管理员" />
-              <el-option value="editor" label="编辑" />
-              <el-option value="reviewer" label="审阅员" />
-              <el-option value="viewer" label="观察者" />
+              <el-option
+                value="all"
+                label="所有用户"
+              />
+              <el-option
+                value="superadmin"
+                label="超级管理员"
+              />
+              <el-option
+                value="admin"
+                label="管理员"
+              />
+              <el-option
+                value="editor"
+                label="编辑"
+              />
+              <el-option
+                value="reviewer"
+                label="审阅员"
+              />
+              <el-option
+                value="viewer"
+                label="观察者"
+              />
             </el-select>
           </el-form-item>
-          <el-form-item label="通知类型" prop="type">
+          <el-form-item
+            label="通知类型"
+            prop="type"
+          >
             <el-radio-group v-model="sendForm.type">
-              <el-radio label="message">消息提醒</el-radio>
-              <el-radio label="task">任务提醒</el-radio>
-              <el-radio label="alert">系统警报</el-radio>
-              <el-radio label="update">更新提醒</el-radio>
+              <el-radio label="message">
+                消息提醒
+              </el-radio>
+              <el-radio label="task">
+                任务提醒
+              </el-radio>
+              <el-radio label="alert">
+                系统警报
+              </el-radio>
+              <el-radio label="update">
+                更新提醒
+              </el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="重要程度">
@@ -183,22 +336,35 @@
               :on-remove="handleFileRemove"
               :file-list="sendForm.files"
             >
-              <el-button type="primary">选择文件</el-button>
+              <el-button type="primary">
+                选择文件
+              </el-button>
               <template #tip>
-                <div class="el-upload__tip">支持上传图片、文档等附件，单个文件不超过10MB</div>
+                <div class="el-upload__tip">
+                  支持上传图片、文档等附件，单个文件不超过10MB
+                </div>
               </template>
             </el-upload>
           </el-form-item>
           <el-form-item label="发送方式">
             <el-checkbox-group v-model="sendForm.channels">
-              <el-checkbox value="inapp">站内通知</el-checkbox>
-              <el-checkbox value="email">邮件通知</el-checkbox>
-              <el-checkbox value="sms">短信通知</el-checkbox>
+              <el-checkbox value="inapp">
+                站内通知
+              </el-checkbox>
+              <el-checkbox value="email">
+                邮件通知
+              </el-checkbox>
+              <el-checkbox value="sms">
+                短信通知
+              </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="定时发送">
             <el-switch v-model="sendForm.scheduled" />
-            <div v-if="sendForm.scheduled" style="margin-top: 8px;">
+            <div
+              v-if="sendForm.scheduled"
+              style="margin-top: 8px;"
+            >
               <el-date-picker
                 v-model="sendForm.scheduledTime"
                 type="datetime"
@@ -211,7 +377,11 @@
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="sendDialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="submitSendForm" :loading="sendLoading">立即发送</el-button>
+            <el-button
+              type="primary"
+              :loading="sendLoading"
+              @click="submitSendForm"
+            >立即发送</el-button>
           </span>
         </template>
       </el-dialog>

@@ -6,7 +6,11 @@
           <h2>体验入口</h2>
         </div>
       </template>
-      <el-form :model="form" :rules="rules" ref="loginFormRef">
+      <el-form
+        ref="loginFormRef"
+        :model="form"
+        :rules="rules"
+      >
         <el-form-item prop="username">
           <el-input
             v-model="form.username"
@@ -26,15 +30,17 @@
           />
         </el-form-item>
         <el-form-item>
-          <el-checkbox v-model="form.remember">记住我</el-checkbox>
+          <el-checkbox v-model="form.remember">
+            记住我
+          </el-checkbox>
         </el-form-item>
         <el-form-item>
           <el-button
             type="primary"
             size="large"
-            @click="handleLogin"
             :loading="loading"
             style="width: 100%;"
+            @click="handleLogin"
           >
             登录
           </el-button>

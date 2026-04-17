@@ -10,8 +10,12 @@
             </div>
           </template>
           <div class="card-content">
-            <div class="number">1,234</div>
-            <div class="description">较上月增长 12%</div>
+            <div class="number">
+              1,234
+            </div>
+            <div class="description">
+              较上月增长 12%
+            </div>
           </div>
         </el-card>
       </el-col>
@@ -23,8 +27,12 @@
             </div>
           </template>
           <div class="card-content">
-            <div class="number">567</div>
-            <div class="description">较上月增长 8%</div>
+            <div class="number">
+              567
+            </div>
+            <div class="description">
+              较上月增长 8%
+            </div>
           </div>
         </el-card>
       </el-col>
@@ -36,8 +44,12 @@
             </div>
           </template>
           <div class="card-content">
-            <div class="number">¥ 89,000</div>
-            <div class="description">较上月增长 15%</div>
+            <div class="number">
+              ¥ 89,000
+            </div>
+            <div class="description">
+              较上月增长 15%
+            </div>
           </div>
         </el-card>
       </el-col>
@@ -49,13 +61,20 @@
             </div>
           </template>
           <div class="card-content">
-            <div class="number">23,456</div>
-            <div class="description">较上月增长 5%</div>
+            <div class="number">
+              23,456
+            </div>
+            <div class="description">
+              较上月增长 5%
+            </div>
           </div>
         </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="20" style="margin-top: 20px;">
+    <el-row
+      :gutter="20"
+      style="margin-top: 20px;"
+    >
       <el-col :span="16">
         <el-card>
           <template #header>
@@ -75,10 +94,22 @@
               <span>热门页面</span>
             </div>
           </template>
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="page" label="页面" />
-            <el-table-column prop="views" label="访问量" />
-            <el-table-column prop="growth" label="增长率">
+          <el-table
+            :data="tableData"
+            style="width: 100%"
+          >
+            <el-table-column
+              prop="page"
+              label="页面"
+            />
+            <el-table-column
+              prop="views"
+              label="访问量"
+            />
+            <el-table-column
+              prop="growth"
+              label="增长率"
+            >
               <template #default="scope">
                 <el-tag :type="scope.row.growth > 0 ? 'success' : 'danger'">
                   {{ scope.row.growth > 0 ? '+' : '' }}{{ scope.row.growth }}%

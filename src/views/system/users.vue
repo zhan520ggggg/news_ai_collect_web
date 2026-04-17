@@ -2,7 +2,12 @@
   <div class="users">
     <div class="header">
       <h1>用户管理</h1>
-      <el-button type="primary" @click="handleAdd">新增用户</el-button>
+      <el-button
+        type="primary"
+        @click="handleAdd"
+      >
+        新增用户
+      </el-button>
     </div>
     <el-card>
       <template #header>
@@ -16,20 +21,44 @@
             @keyup.enter="handleSearch"
           >
             <template #append>
-              <el-button :icon="Search" @click="handleSearch" />
+              <el-button
+                :icon="Search"
+                @click="handleSearch"
+              />
             </template>
           </el-input>
           <div>
-            <el-button :icon="Refresh" @click="handleRefresh" />
+            <el-button
+              :icon="Refresh"
+              @click="handleRefresh"
+            />
           </div>
         </div>
       </template>
-      <el-table :data="tableData" v-loading="loading">
-        <el-table-column prop="userName" label="用户名" />
-        <el-table-column prop="displayName" label="显示名称" />
-        <el-table-column prop="email" label="邮箱" />
-        <el-table-column prop="phone" label="手机号" />
-        <el-table-column prop="isActive" label="状态">
+      <el-table
+        v-loading="loading"
+        :data="tableData"
+      >
+        <el-table-column
+          prop="userName"
+          label="用户名"
+        />
+        <el-table-column
+          prop="displayName"
+          label="显示名称"
+        />
+        <el-table-column
+          prop="email"
+          label="邮箱"
+        />
+        <el-table-column
+          prop="phone"
+          label="手机号"
+        />
+        <el-table-column
+          prop="isActive"
+          label="状态"
+        >
           <template #default="scope">
             <el-tag :type="scope.row.isActive ? 'success' : 'danger'">
               {{ scope.row.isActive ? '启用' : '禁用' }}
@@ -47,14 +76,34 @@
             >
               {{ role.roleDisplayName || role.roleName }}
             </el-tag>
-            <span v-if="!scope.row.roles || scope.row.roles.length === 0" class="no-role">-</span>
+            <span
+              v-if="!scope.row.roles || scope.row.roles.length === 0"
+              class="no-role"
+            >-</span>
           </template>
         </el-table-column>
-        <el-table-column prop="createdAt" label="创建时间" />
-        <el-table-column label="操作" width="200">
+        <el-table-column
+          prop="createdAt"
+          label="创建时间"
+        />
+        <el-table-column
+          label="操作"
+          width="200"
+        >
           <template #default="scope">
-            <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button
+              size="small"
+              @click="handleEdit(scope.row)"
+            >
+              编辑
+            </el-button>
+            <el-button
+              size="small"
+              type="danger"
+              @click="handleDelete(scope.row)"
+            >
+              删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -77,27 +126,74 @@
       :title="dialogTitle"
       width="500px"
     >
-      <el-form :model="userForm" :rules="rules" ref="userFormRef" label-width="80px">
-        <el-form-item label="用户名" prop="userName">
-          <el-input v-model="userForm.userName" placeholder="请输入用户名" />
+      <el-form
+        ref="userFormRef"
+        :model="userForm"
+        :rules="rules"
+        label-width="80px"
+      >
+        <el-form-item
+          label="用户名"
+          prop="userName"
+        >
+          <el-input
+            v-model="userForm.userName"
+            placeholder="请输入用户名"
+          />
         </el-form-item>
-        <el-form-item v-if="!userForm.id" label="密码" prop="password">
-          <el-input v-model="userForm.password" type="password" placeholder="请输入密码" show-password />
+        <el-form-item
+          v-if="!userForm.id"
+          label="密码"
+          prop="password"
+        >
+          <el-input
+            v-model="userForm.password"
+            type="password"
+            placeholder="请输入密码"
+            show-password
+          />
         </el-form-item>
-        <el-form-item label="显示名称" prop="displayName">
-          <el-input v-model="userForm.displayName" placeholder="请输入显示名称" />
+        <el-form-item
+          label="显示名称"
+          prop="displayName"
+        >
+          <el-input
+            v-model="userForm.displayName"
+            placeholder="请输入显示名称"
+          />
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="userForm.email" placeholder="请输入邮箱" />
+        <el-form-item
+          label="邮箱"
+          prop="email"
+        >
+          <el-input
+            v-model="userForm.email"
+            placeholder="请输入邮箱"
+          />
         </el-form-item>
-        <el-form-item label="手机号" prop="phone">
-          <el-input v-model="userForm.phone" placeholder="请输入手机号" />
+        <el-form-item
+          label="手机号"
+          prop="phone"
+        >
+          <el-input
+            v-model="userForm.phone"
+            placeholder="请输入手机号"
+          />
         </el-form-item>
         <el-form-item label="状态">
-          <el-switch v-model="userForm.isActive" active-text="启用" inactive-text="禁用" />
+          <el-switch
+            v-model="userForm.isActive"
+            active-text="启用"
+            inactive-text="禁用"
+          />
         </el-form-item>
         <el-form-item label="角色">
-          <el-select v-model="userForm.roleIds" multiple placeholder="请选择角色" style="width: 100%;">
+          <el-select
+            v-model="userForm.roleIds"
+            multiple
+            placeholder="请选择角色"
+            style="width: 100%;"
+          >
             <el-option
               v-for="role in roleOptions"
               :key="role.roleId"
@@ -110,7 +206,10 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="submitForm">确定</el-button>
+          <el-button
+            type="primary"
+            @click="submitForm"
+          >确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -125,7 +224,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { userApi, rolesApi } from '@/api'
 import type { UserResponseDto, CreateUserDto, UpdateUserDto, UserRole } from '@/api'
 
-interface User extends UserResponseDto {}
+type User = UserResponseDto
 
 const search = ref('')
 const loading = ref(false)

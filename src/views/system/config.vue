@@ -3,15 +3,31 @@
     <div class="header">
       <h1>系统配置</h1>
       <div>
-        <el-button type="primary" @click="saveAllConfig">保存配置</el-button>
-        <el-button @click="resetToDefault">重置为默认</el-button>
-        <el-button :icon="Refresh" @click="handleRefresh" />
+        <el-button
+          type="primary"
+          @click="saveAllConfig"
+        >
+          保存配置
+        </el-button>
+        <el-button @click="resetToDefault">
+          重置为默认
+        </el-button>
+        <el-button
+          :icon="Refresh"
+          @click="handleRefresh"
+        />
       </div>
     </div>
 
-    <el-tabs v-model="activeTab" type="border-card">
+    <el-tabs
+      v-model="activeTab"
+      type="border-card"
+    >
       <!-- 系统基础配置 -->
-      <el-tab-pane label="基础配置" name="basic">
+      <el-tab-pane
+        label="基础配置"
+        name="basic"
+      >
         <el-card>
           <template #header>
             <div class="card-header">
@@ -20,7 +36,10 @@
           </template>
           <el-form label-width="180px">
             <el-form-item label="系统名称">
-              <el-input v-model="config.system.name" placeholder="请输入系统名称" />
+              <el-input
+                v-model="config.system.name"
+                placeholder="请输入系统名称"
+              />
             </el-form-item>
             <el-form-item label="系统Logo">
               <div class="logo-upload">
@@ -31,8 +50,18 @@
                   :auto-upload="false"
                   :on-change="handleLogoChange"
                 >
-                  <img v-if="config.system.logo" :src="config.system.logo" class="logo-image" alt="Logo" />
-                  <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+                  <img
+                    v-if="config.system.logo"
+                    :src="config.system.logo"
+                    class="logo-image"
+                    alt="Logo"
+                  >
+                  <el-icon
+                    v-else
+                    class="avatar-uploader-icon"
+                  >
+                    <Plus />
+                  </el-icon>
                 </el-upload>
                 <div class="logo-tips">
                   <p>建议尺寸：200 x 60 px</p>
@@ -51,20 +80,33 @@
               />
             </el-form-item>
             <el-form-item label="系统版本">
-              <el-input v-model="config.system.version" placeholder="请输入系统版本" disabled />
+              <el-input
+                v-model="config.system.version"
+                placeholder="请输入系统版本"
+                disabled
+              />
             </el-form-item>
             <el-form-item label="版权信息">
-              <el-input v-model="config.system.copyright" placeholder="请输入版权信息" />
+              <el-input
+                v-model="config.system.copyright"
+                placeholder="请输入版权信息"
+              />
             </el-form-item>
             <el-form-item label="备案信息">
-              <el-input v-model="config.system.icp" placeholder="请输入备案号" />
+              <el-input
+                v-model="config.system.icp"
+                placeholder="请输入备案号"
+              />
             </el-form-item>
           </el-form>
         </el-card>
       </el-tab-pane>
 
       <!-- 用户配置 -->
-      <el-tab-pane label="用户配置" name="user">
+      <el-tab-pane
+        label="用户配置"
+        name="user"
+      >
         <el-card>
           <template #header>
             <div class="card-header">
@@ -74,27 +116,55 @@
           <el-form label-width="180px">
             <el-form-item label="新用户注册">
               <el-radio-group v-model="config.user.allowRegister">
-                <el-radio label="allow">允许注册</el-radio>
-                <el-radio label="invite">仅邀请注册</el-radio>
-                <el-radio label="disable">禁止注册</el-radio>
+                <el-radio label="allow">
+                  允许注册
+                </el-radio>
+                <el-radio label="invite">
+                  仅邀请注册
+                </el-radio>
+                <el-radio label="disable">
+                  禁止注册
+                </el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="默认用户角色">
-              <el-select v-model="config.user.defaultRole" placeholder="请选择默认角色">
-                <el-option label="观察者" value="viewer" />
-                <el-option label="编辑" value="editor" />
-                <el-option label="审阅员" value="reviewer" />
+              <el-select
+                v-model="config.user.defaultRole"
+                placeholder="请选择默认角色"
+              >
+                <el-option
+                  label="观察者"
+                  value="viewer"
+                />
+                <el-option
+                  label="编辑"
+                  value="editor"
+                />
+                <el-option
+                  label="审阅员"
+                  value="reviewer"
+                />
               </el-select>
             </el-form-item>
             <el-form-item label="密码强度要求">
               <el-radio-group v-model="config.user.passwordStrength">
-                <el-radio label="low">低（6位字符）</el-radio>
-                <el-radio label="medium">中（8位含字母数字）</el-radio>
-                <el-radio label="high">高（8位含大小写字母数字）</el-radio>
+                <el-radio label="low">
+                  低（6位字符）
+                </el-radio>
+                <el-radio label="medium">
+                  中（8位含字母数字）
+                </el-radio>
+                <el-radio label="high">
+                  高（8位含大小写字母数字）
+                </el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="会话超时时间">
-              <el-input-number v-model="config.user.sessionTimeout" :min="15" :max="480" />
+              <el-input-number
+                v-model="config.user.sessionTimeout"
+                :min="15"
+                :max="480"
+              />
               <span class="unit">分钟</span>
             </el-form-item>
             <el-form-item label="允许同一账号多地登录">
@@ -102,11 +172,24 @@
             </el-form-item>
             <el-form-item label="登录失败锁定">
               <el-switch v-model="config.user.loginLockEnabled" />
-              <div v-if="config.user.loginLockEnabled" class="inline-inputs">
+              <div
+                v-if="config.user.loginLockEnabled"
+                class="inline-inputs"
+              >
                 失败
-                <el-input-number v-model="config.user.maxLoginAttempts" :min="1" :max="10" controls-position="right" />
+                <el-input-number
+                  v-model="config.user.maxLoginAttempts"
+                  :min="1"
+                  :max="10"
+                  controls-position="right"
+                />
                 次后锁定
-                <el-input-number v-model="config.user.lockDuration" :min="5" :max="60" controls-position="right" />
+                <el-input-number
+                  v-model="config.user.lockDuration"
+                  :min="5"
+                  :max="60"
+                  controls-position="right"
+                />
                 分钟
               </div>
             </el-form-item>
@@ -115,7 +198,10 @@
       </el-tab-pane>
 
       <!-- 热点采集配置 -->
-      <el-tab-pane label="采集配置" name="collection">
+      <el-tab-pane
+        label="采集配置"
+        name="collection"
+      >
         <el-card>
           <template #header>
             <div class="card-header">
@@ -124,14 +210,26 @@
           </template>
           <el-form label-width="200px">
             <el-form-item label="默认采集间隔时间">
-              <el-input-number v-model="config.collection.defaultInterval" :min="5" :max="60" />
+              <el-input-number
+                v-model="config.collection.defaultInterval"
+                :min="5"
+                :max="60"
+              />
               <span class="unit">分钟</span>
             </el-form-item>
             <el-form-item label="最大并发采集任务数">
-              <el-input-number v-model="config.collection.maxConcurrentTasks" :min="1" :max="20" />
+              <el-input-number
+                v-model="config.collection.maxConcurrentTasks"
+                :min="1"
+                :max="20"
+              />
             </el-form-item>
             <el-form-item label="采集超时时间">
-              <el-input-number v-model="config.collection.timeout" :min="10" :max="120" />
+              <el-input-number
+                v-model="config.collection.timeout"
+                :min="10"
+                :max="120"
+              />
               <span class="unit">秒</span>
             </el-form-item>
             <el-form-item label="自动去重相似内容">
@@ -146,10 +244,19 @@
               />
             </el-form-item>
             <el-form-item label="自动分类精度阈值">
-              <el-slider v-model="config.collection.autoClassifyThreshold" :min="0" :max="100" show-input />
+              <el-slider
+                v-model="config.collection.autoClassifyThreshold"
+                :min="0"
+                :max="100"
+                show-input
+              />
             </el-form-item>
             <el-form-item label="采集数据保留天数">
-              <el-input-number v-model="config.collection.dataRetentionDays" :min="30" :max="365" />
+              <el-input-number
+                v-model="config.collection.dataRetentionDays"
+                :min="30"
+                :max="365"
+              />
               <span class="unit">天</span>
             </el-form-item>
           </el-form>
@@ -157,7 +264,10 @@
       </el-tab-pane>
 
       <!-- 分析展示配置 -->
-      <el-tab-pane label="分析配置" name="analysis">
+      <el-tab-pane
+        label="分析配置"
+        name="analysis"
+      >
         <el-card>
           <template #header>
             <div class="card-header">
@@ -166,53 +276,115 @@
           </template>
           <el-form label-width="200px">
             <el-form-item label="数据刷新间隔">
-              <el-select v-model="config.analysis.refreshInterval" placeholder="请选择刷新间隔">
-                <el-option label="实时（5秒）" :value="5" />
-                <el-option label="快速（30秒）" :value="30" />
-                <el-option label="普通（1分钟）" :value="60" />
-                <el-option label="慢速（5分钟）" :value="300" />
+              <el-select
+                v-model="config.analysis.refreshInterval"
+                placeholder="请选择刷新间隔"
+              >
+                <el-option
+                  label="实时（5秒）"
+                  :value="5"
+                />
+                <el-option
+                  label="快速（30秒）"
+                  :value="30"
+                />
+                <el-option
+                  label="普通（1分钟）"
+                  :value="60"
+                />
+                <el-option
+                  label="慢速（5分钟）"
+                  :value="300"
+                />
               </el-select>
             </el-form-item>
             <el-form-item label="图表默认主题">
-              <el-select v-model="config.analysis.chartTheme" placeholder="请选择图表主题">
-                <el-option label="明亮主题" value="light" />
-                <el-option label="暗色主题" value="dark" />
+              <el-select
+                v-model="config.analysis.chartTheme"
+                placeholder="请选择图表主题"
+              >
+                <el-option
+                  label="明亮主题"
+                  value="light"
+                />
+                <el-option
+                  label="暗色主题"
+                  value="dark"
+                />
               </el-select>
             </el-form-item>
             <el-form-item label="热点趋势预测周期">
-              <el-input-number v-model="config.analysis.trendPredictDays" :min="1" :max="30" />
+              <el-input-number
+                v-model="config.analysis.trendPredictDays"
+                :min="1"
+                :max="30"
+              />
               <span class="unit">天</span>
             </el-form-item>
             <el-form-item label="热门阈值设置">
               <div class="inline-inputs">
                 <span class="inline-label">点击量：</span>
-                <el-input-number v-model="config.analysis.thresholds.clicks" :min="100" :max="100000" />
+                <el-input-number
+                  v-model="config.analysis.thresholds.clicks"
+                  :min="100"
+                  :max="100000"
+                />
                 <span class="inline-label">评论数：</span>
-                <el-input-number v-model="config.analysis.thresholds.comments" :min="10" :max="10000" />
+                <el-input-number
+                  v-model="config.analysis.thresholds.comments"
+                  :min="10"
+                  :max="10000"
+                />
                 <span class="inline-label">分享数：</span>
-                <el-input-number v-model="config.analysis.thresholds.shares" :min="10" :max="10000" />
+                <el-input-number
+                  v-model="config.analysis.thresholds.shares"
+                  :min="10"
+                  :max="10000"
+                />
               </div>
             </el-form-item>
             <el-form-item label="数据自动导出">
               <el-switch v-model="config.analysis.autoExport.enabled" />
-              <div v-if="config.analysis.autoExport.enabled" class="inline-inputs">
+              <div
+                v-if="config.analysis.autoExport.enabled"
+                class="inline-inputs"
+              >
                 每隔
-                <el-input-number v-model="config.analysis.autoExport.interval" :min="6" :max="168" />
-                <el-select v-model="config.analysis.autoExport.intervalUnit" style="width: 80px;">
-                  <el-option label="小时" value="hours" />
-                  <el-option label="天" value="days" />
+                <el-input-number
+                  v-model="config.analysis.autoExport.interval"
+                  :min="6"
+                  :max="168"
+                />
+                <el-select
+                  v-model="config.analysis.autoExport.intervalUnit"
+                  style="width: 80px;"
+                >
+                  <el-option
+                    label="小时"
+                    value="hours"
+                  />
+                  <el-option
+                    label="天"
+                    value="days"
+                  />
                 </el-select>
               </div>
             </el-form-item>
             <el-form-item label="报告发送邮箱">
-              <el-input v-model="config.analysis.reportEmail" placeholder="请输入接收报告的邮箱地址" />
+              <el-input
+                v-model="config.analysis.reportEmail"
+                placeholder="请输入接收报告的邮箱地址"
+              />
             </el-form-item>
           </el-form>
         </el-card>
       </el-tab-pane>
 
       <!-- 通知配置 -->
-      <el-tab-pane label="通知配置" name="notification">
+      <el-tab-pane
+        label="通知配置"
+        name="notification"
+      >
         <el-card>
           <template #header>
             <div class="card-header">
@@ -233,10 +405,17 @@
               <el-switch v-model="config.notification.inAppEnabled" />
             </el-form-item>
             <el-form-item label="默认通知标题前缀">
-              <el-input v-model="config.notification.defaultPrefix" placeholder="例如：[系统通知]" />
+              <el-input
+                v-model="config.notification.defaultPrefix"
+                placeholder="例如：[系统通知]"
+              />
             </el-form-item>
             <el-form-item label="通知保留天数">
-              <el-input-number v-model="config.notification.retentionDays" :min="7" :max="90" />
+              <el-input-number
+                v-model="config.notification.retentionDays"
+                :min="7"
+                :max="90"
+              />
               <span class="unit">天</span>
             </el-form-item>
             <el-form-item label="紧急通知接收人">
@@ -252,7 +431,10 @@
       </el-tab-pane>
 
       <!-- 备份配置 -->
-      <el-tab-pane label="备份配置" name="backup">
+      <el-tab-pane
+        label="备份配置"
+        name="backup"
+      >
         <el-card>
           <template #header>
             <div class="card-header">
@@ -275,29 +457,62 @@
               />
             </el-form-item>
             <el-form-item label="备份频率">
-              <el-select v-model="config.backup.frequency" placeholder="请选择备份频率">
-                <el-option label="每日" value="daily" />
-                <el-option label="每周" value="weekly" />
-                <el-option label="每月" value="monthly" />
+              <el-select
+                v-model="config.backup.frequency"
+                placeholder="请选择备份频率"
+              >
+                <el-option
+                  label="每日"
+                  value="daily"
+                />
+                <el-option
+                  label="每周"
+                  value="weekly"
+                />
+                <el-option
+                  label="每月"
+                  value="monthly"
+                />
               </el-select>
             </el-form-item>
             <el-form-item label="备份保留数量">
-              <el-input-number v-model="config.backup.retentionCount" :min="1" :max="100" />
+              <el-input-number
+                v-model="config.backup.retentionCount"
+                :min="1"
+                :max="100"
+              />
               <span class="unit">个</span>
             </el-form-item>
             <el-form-item label="备份文件压缩">
               <el-switch v-model="config.backup.compressEnabled" />
             </el-form-item>
             <el-form-item label="备份目录">
-              <el-input v-model="config.backup.directory" placeholder="请输入备份存储目录" />
-              <el-button type="primary" link @click="browseDirectory">浏览</el-button>
+              <el-input
+                v-model="config.backup.directory"
+                placeholder="请输入备份存储目录"
+              />
+              <el-button
+                type="primary"
+                link
+                @click="browseDirectory"
+              >
+                浏览
+              </el-button>
             </el-form-item>
             <el-form-item label="备份内容">
               <el-checkbox-group v-model="config.backup.items">
-                <el-checkbox value="database">数据库</el-checkbox>
-                <el-checkbox value="files">文件系统</el-checkbox>
-                <el-checkbox value="logs">系统日志</el-checkbox>
-                <el-checkbox value="config">配置文件</el-checkbox>
+                <el-checkbox value="database">
+                  数据库
+                </el-checkbox>
+                <el-checkbox value="files">
+                  文件系统
+                </el-checkbox>
+                <el-checkbox value="logs">
+                  系统日志
+                </el-checkbox>
+                <el-checkbox value="config">
+                  配置文件
+                </el-checkbox>
               </el-checkbox-group>
             </el-form-item>
             <el-form-item label="备份前提醒">

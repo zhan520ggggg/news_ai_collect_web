@@ -3,22 +3,40 @@
     <div class="header">
       <h1>运营数据分析</h1>
       <div>
-        <el-button :icon="Refresh" @click="handleRefresh" />
+        <el-button
+          :icon="Refresh"
+          @click="handleRefresh"
+        />
       </div>
     </div>
 
     <div class="content">
       <!-- 数据概览卡片 -->
-      <el-row :gutter="20" class="overview-cards">
+      <el-row
+        :gutter="20"
+        class="overview-cards"
+      >
         <el-col :span="6">
           <el-card class="card">
             <div class="card-content">
-              <div class="card-icon" style="background-color: #409eff20;">
-                <el-icon color="#409eff" :size="24"><User /></el-icon>
+              <div
+                class="card-icon"
+                style="background-color: #409eff20;"
+              >
+                <el-icon
+                  color="#409eff"
+                  :size="24"
+                >
+                  <User />
+                </el-icon>
               </div>
               <div class="card-info">
-                <div class="card-title">活跃用户</div>
-                <div class="card-value">1,254</div>
+                <div class="card-title">
+                  活跃用户
+                </div>
+                <div class="card-value">
+                  1,254
+                </div>
                 <div class="card-trend">
                   <span class="trend-up">+12.5%</span>
                   <span class="card-desc">较上月</span>
@@ -30,12 +48,24 @@
         <el-col :span="6">
           <el-card class="card">
             <div class="card-content">
-              <div class="card-icon" style="background-color: #67c23a20;">
-                <el-icon color="#67c23a" :size="24"><TrendCharts /></el-icon>
+              <div
+                class="card-icon"
+                style="background-color: #67c23a20;"
+              >
+                <el-icon
+                  color="#67c23a"
+                  :size="24"
+                >
+                  <TrendCharts />
+                </el-icon>
               </div>
               <div class="card-info">
-                <div class="card-title">热点数量</div>
-                <div class="card-value">342</div>
+                <div class="card-title">
+                  热点数量
+                </div>
+                <div class="card-value">
+                  342
+                </div>
                 <div class="card-trend">
                   <span class="trend-up">+8.3%</span>
                   <span class="card-desc">本周新增</span>
@@ -47,12 +77,24 @@
         <el-col :span="6">
           <el-card class="card">
             <div class="card-content">
-              <div class="card-icon" style="background-color: #e6a23c20;">
-                <el-icon color="#e6a23c" :size="24"><Document /></el-icon>
+              <div
+                class="card-icon"
+                style="background-color: #e6a23c20;"
+              >
+                <el-icon
+                  color="#e6a23c"
+                  :size="24"
+                >
+                  <Document />
+                </el-icon>
               </div>
               <div class="card-info">
-                <div class="card-title">发布内容</div>
-                <div class="card-value">128</div>
+                <div class="card-title">
+                  发布内容
+                </div>
+                <div class="card-value">
+                  128
+                </div>
                 <div class="card-trend">
                   <span class="trend-down">-3.2%</span>
                   <span class="card-desc">较上周</span>
@@ -64,12 +106,24 @@
         <el-col :span="6">
           <el-card class="card">
             <div class="card-content">
-              <div class="card-icon" style="background-color: #f56c6c20;">
-                <el-icon color="#f56c6c" :size="24"><ChatDotRound /></el-icon>
+              <div
+                class="card-icon"
+                style="background-color: #f56c6c20;"
+              >
+                <el-icon
+                  color="#f56c6c"
+                  :size="24"
+                >
+                  <ChatDotRound />
+                </el-icon>
               </div>
               <div class="card-info">
-                <div class="card-title">用户互动</div>
-                <div class="card-value">2,587</div>
+                <div class="card-title">
+                  用户互动
+                </div>
+                <div class="card-value">
+                  2,587
+                </div>
                 <div class="card-trend">
                   <span class="trend-up">+15.7%</span>
                   <span class="card-desc">较昨日</span>
@@ -81,22 +135,38 @@
       </el-row>
 
       <!-- 图表区域 -->
-      <el-row :gutter="20" class="chart-area">
+      <el-row
+        :gutter="20"
+        class="chart-area"
+      >
         <el-col :span="12">
           <el-card class="chart-card">
             <template #header>
               <div class="chart-header">
                 <span>用户活跃度趋势</span>
                 <div>
-                  <el-radio-group v-model="activeTimeRange" size="small">
-                    <el-radio-button label="day">日</el-radio-button>
-                    <el-radio-button label="week">周</el-radio-button>
-                    <el-radio-button label="month">月</el-radio-button>
+                  <el-radio-group
+                    v-model="activeTimeRange"
+                    size="small"
+                  >
+                    <el-radio-button label="day">
+                      日
+                    </el-radio-button>
+                    <el-radio-button label="week">
+                      周
+                    </el-radio-button>
+                    <el-radio-button label="month">
+                      月
+                    </el-radio-button>
                   </el-radio-group>
                 </div>
               </div>
             </template>
-            <div ref="activeChartRef" class="chart-container" style="height: 300px;"></div>
+            <div
+              ref="activeChartRef"
+              class="chart-container"
+              style="height: 300px;"
+            />
           </el-card>
         </el-col>
         <el-col :span="12">
@@ -106,7 +176,11 @@
                 <span>内容类型分布</span>
               </div>
             </template>
-            <div ref="contentChartRef" class="chart-container" style="height: 300px;"></div>
+            <div
+              ref="contentChartRef"
+              class="chart-container"
+              style="height: 300px;"
+            />
           </el-card>
         </el-col>
       </el-row>
@@ -134,18 +208,50 @@
           :data="tableData"
           style="width: 100%;"
         >
-          <el-table-column prop="date" label="日期" width="120" />
-          <el-table-column prop="newUsers" label="新增用户" width="100" />
-          <el-table-column prop="activeUsers" label="活跃用户" width="100" />
-          <el-table-column prop="newHotspots" label="新增热点" width="100" />
-          <el-table-column prop="publishedContent" label="发布内容" width="100" />
-          <el-table-column prop="userInteractions" label="用户互动" width="100" />
-          <el-table-column prop="avgSession" label="平均会话时长" width="120">
+          <el-table-column
+            prop="date"
+            label="日期"
+            width="120"
+          />
+          <el-table-column
+            prop="newUsers"
+            label="新增用户"
+            width="100"
+          />
+          <el-table-column
+            prop="activeUsers"
+            label="活跃用户"
+            width="100"
+          />
+          <el-table-column
+            prop="newHotspots"
+            label="新增热点"
+            width="100"
+          />
+          <el-table-column
+            prop="publishedContent"
+            label="发布内容"
+            width="100"
+          />
+          <el-table-column
+            prop="userInteractions"
+            label="用户互动"
+            width="100"
+          />
+          <el-table-column
+            prop="avgSession"
+            label="平均会话时长"
+            width="120"
+          >
             <template #default="{ row }">
               {{ row.avgSession }}分钟
             </template>
           </el-table-column>
-          <el-table-column prop="conversionRate" label="转化率" width="100">
+          <el-table-column
+            prop="conversionRate"
+            label="转化率"
+            width="100"
+          >
             <template #default="{ row }">
               {{ row.conversionRate }}%
             </template>
