@@ -1,6 +1,13 @@
 import request from '../request'
 import type { ApiResponse, PagedRequest, PagedResponse } from '../request'
 
+// 角色信息
+export interface UserRole {
+  roleId: string
+  roleName: string | null
+  roleDisplayName: string | null
+}
+
 // 用户响应DTO
 export interface UserResponseDto {
   id: string
@@ -11,6 +18,7 @@ export interface UserResponseDto {
   isActive: boolean
   createdAt: string
   updatedAt: string
+  roles?: UserRole[]
 }
 
 // 创建用户DTO
@@ -20,6 +28,7 @@ export interface CreateUserDto {
   email: string
   phone?: string
   displayName?: string
+  roleIds?: string[]
 }
 
 // 更新用户DTO
@@ -29,6 +38,7 @@ export interface UpdateUserDto {
   phone?: string
   displayName?: string
   isActive?: boolean
+  roleIds?: string[]
 }
 
 export const userApi = {

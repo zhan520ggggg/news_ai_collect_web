@@ -36,6 +36,20 @@
             </el-tag>
           </template>
         </el-table-column>
+        <el-table-column label="角色">
+          <template #default="scope">
+            <el-tag
+              v-for="role in scope.row.roles"
+              :key="role.roleId"
+              size="small"
+              type="info"
+              class="role-tag"
+            >
+              {{ role.roleDisplayName || role.roleName }}
+            </el-tag>
+            <span v-if="!scope.row.roles || scope.row.roles.length === 0" class="no-role">-</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="createdAt" label="创建时间" />
         <el-table-column label="操作" width="200">
           <template #default="scope">
@@ -82,6 +96,16 @@
         <el-form-item label="状态">
           <el-switch v-model="userForm.isActive" active-text="启用" inactive-text="禁用" />
         </el-form-item>
+        <el-form-item label="角色">
+          <el-select v-model="userForm.roleIds" multiple placeholder="请选择角色" style="width: 100%;">
+            <el-option
+              v-for="role in roleOptions"
+              :key="role.roleId"
+              :label="role.roleDisplayName || role.roleName"
+              :value="role.roleId"
+            />
+          </el-select>
+        </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -98,8 +122,8 @@ import { ref, reactive, onMounted, nextTick } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { userApi } from '@/api'
-import type { UserResponseDto, CreateUserDto, UpdateUserDto } from '@/api'
+import { userApi, rolesApi } from '@/api'
+import type { UserResponseDto, CreateUserDto, UpdateUserDto, UserRole } from '@/api'
 
 interface User extends UserResponseDto {}
 
@@ -111,6 +135,7 @@ const total = ref(0)
 const dialogVisible = ref(false)
 const dialogTitle = ref('')
 const userFormRef = ref<FormInstance>()
+const roleOptions = ref<UserRole[]>([])
 
 const tableData = ref<User[]>([])
 
@@ -120,7 +145,8 @@ const userForm = reactive<CreateUserDto & { id?: string; password?: string; isAc
   email: '',
   phone: '',
   displayName: '',
-  isActive: true
+  isActive: true,
+  roleIds: []
 })
 
 const rules: FormRules = {
@@ -138,7 +164,22 @@ const rules: FormRules = {
 
 onMounted(() => {
   fetchData()
+  fetchRoles()
 })
+
+const fetchRoles = () => {
+  rolesApi.getAllRoles().then(response => {
+    if (response.code === 0 && response.data) {
+      roleOptions.value = response.data.map(role => ({
+        roleId: role.roleId,
+        roleName: role.roleName,
+        roleDisplayName: role.roleDisplayName
+      }))
+    }
+  }).catch(error => {
+    console.error('获取角色列表失败:', error)
+  })
+}
 
 const fetchData = () => {
   loading.value = true
@@ -178,7 +219,8 @@ const handleAdd = () => {
     email: '',
     phone: '',
     displayName: '',
-    isActive: true
+    isActive: true,
+    roleIds: []
   })
   dialogVisible.value = true
   nextTick(() => {
@@ -195,7 +237,8 @@ const handleEdit = (row: User) => {
     email: row.email,
     phone: row.phone,
     displayName: row.displayName || '',
-    isActive: row.isActive
+    isActive: row.isActive,
+    roleIds: row.roles?.map(r => r.roleId) || []
   })
   dialogVisible.value = true
   nextTick(() => {
@@ -297,5 +340,15 @@ const handleCurrentChange = (val: number) => {
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;
+}
+
+.role-tag {
+  margin-right: 4px;
+  margin-bottom: 2px;
+}
+
+.no-role {
+  color: #909399;
+  font-size: 12px;
 }
 </style>
