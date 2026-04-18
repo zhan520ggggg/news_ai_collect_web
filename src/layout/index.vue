@@ -190,14 +190,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, watch } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/modules/auth'
 import { useAppStore } from '@/store/modules/app'
-import { transformMenuData, type MenuItem } from '@/utils/menu'
+import { transformMenuData } from '@/utils/menu'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { Fold, Expand, PieChart, User, Goods, Lock, Setting, Menu } from '@element-plus/icons-vue'
+import { Fold, Expand } from '@element-plus/icons-vue'
 
 // 动态导入所有Element Plus图标
 const icons = ElementPlusIconsVue
@@ -214,7 +214,7 @@ const theme = computed(() => appStore.theme)
 
 const activeMenu = computed(() => route.path)
 
-const username = computed(() => authStore.user?.username || '管理员')
+const username = computed(() => (authStore.user as any)?.username || (authStore.user as any)?.userName || '管理员')
 const userAvatar = 'https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/doubao/web/doubao_avatar.png'//computed(() => authStore.user?.avatar || '')
 const userRoles = computed(() => authStore.roles || [])
 const primaryRole = computed(() => {
@@ -246,7 +246,7 @@ const defaultMenuItems = computed(() => {
       title: '仪表盘',
       type: 'item'
     }
-  ]
+  ] as any[]
 })
 
 // 检查是否有动态菜单数据

@@ -1,52 +1,7 @@
 import request from '../request'
-import type { ApiResponse } from '../request'
+import type { ApiResponse, MenuTreeDto, MenuResponseDto, CreateMenuDto, UpdateMenuDto } from '../types'
 
-// 菜单树节点
-export interface MenuTreeDto {
-  id: string
-  name: string
-  code: string
-  icon?: string
-  route?: string
-  sort: number
-  parentId?: string
-  children?: MenuTreeDto[]
-  createdAt: string
-  updatedAt: string
-}
-
-// 菜单响应
-export interface MenuResponseDto {
-  id: string
-  name: string
-  code: string
-  icon?: string
-  route?: string
-  sort: number
-  parentId?: string
-  createdAt: string
-  updatedAt: string
-}
-
-// 创建菜单DTO
-export interface CreateMenuDto {
-  name: string
-  code: string
-  icon?: string
-  route?: string
-  sort?: number
-  parentId?: string
-}
-
-// 更新菜单DTO
-export interface UpdateMenuDto {
-  name?: string
-  code?: string
-  icon?: string
-  route?: string
-  sort?: number
-  parentId?: string
-}
+export type { MenuTreeDto, MenuResponseDto, CreateMenuDto, UpdateMenuDto } from '../types'
 
 export const menusApi = {
   // 获取完整菜单树

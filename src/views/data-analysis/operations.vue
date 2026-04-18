@@ -274,10 +274,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick, onBeforeUnmount } from 'vue'
 import * as echarts from 'echarts'
 import { Refresh, User, TrendCharts, Document, ChatDotRound } from '@element-plus/icons-vue'
-import type { ElTable, ElMessage, ElLoading } from 'element-plus'
 import type { ECharts } from 'echarts'
 
 const loading = ref(false)
@@ -286,6 +285,7 @@ const activeChartRef = ref<HTMLElement>()
 const contentChartRef = ref<HTMLElement>()
 let activeChart: ECharts | null = null
 let contentChart: ECharts | null = null
+let resizeHandler: (() => void) | null = null
 
 // 活跃度时间范围
 const activeTimeRange = ref('week')
@@ -465,14 +465,15 @@ const handleCurrentChange = (val: number) => {
 }
 
 // 监听窗口大小变化，重新渲染图表
-window.addEventListener('resize', () => {
+resizeHandler = () => {
   if (activeChart) {
     activeChart.resize()
   }
   if (contentChart) {
     contentChart.resize()
   }
-})
+}
+window.addEventListener('resize', resizeHandler)
 
 // 组件销毁时清理图表
 onBeforeUnmount(() => {
@@ -484,7 +485,9 @@ onBeforeUnmount(() => {
     contentChart.dispose()
     contentChart = null
   }
-  window.removeEventListener('resize', null)
+  if (resizeHandler) {
+    window.removeEventListener('resize', resizeHandler)
+  }
 })
 </script>
 

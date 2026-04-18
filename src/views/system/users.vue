@@ -224,7 +224,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Refresh } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { userApi, rolesApi } from '@/api'
-import type { UserResponseDto, CreateUserDto, UpdateUserDto, UserRole } from '@/api'
+import type { UserResponseDto, CreateUserDto, UpdateUserDto } from '@/api'
 
 type User = UserResponseDto
 
@@ -236,7 +236,7 @@ const total = ref(0)
 const dialogVisible = ref(false)
 const dialogTitle = ref('')
 const userFormRef = ref<FormInstance>()
-const roleOptions = ref<UserRole[]>([])
+const roleOptions = ref<Array<{ roleId: string; roleName: string }>>([])
 
 const tableData = ref<User[]>([])
 
@@ -289,9 +289,9 @@ const fetchData = () => {
     pageSize: pageSize.value,
     search: search.value || undefined
   }).then(response => {
-    if (response.code === 0) {
-      tableData.value = response.data.items
-      total.value = response.data.totalCount
+    if (response.code === 0 && response.data) {
+      tableData.value = response.data.items || []
+      total.value = response.data.totalCount || 0
     } else {
       ElMessage.error(response.message || '获取用户列表失败')
     }
@@ -333,13 +333,13 @@ const handleEdit = (row: User) => {
   dialogTitle.value = '编辑用户'
   // 处理 roles：后端返回字符串数组如 ["采集管理员"]，需要根据角色名称找到 roleId
   const getRoleIds = () => {
-    return (row.roles || []).map(r => {
+    return ((row.roles || []) as any[]).map(r => {
       if (typeof r === 'string') {
         // 根据角色名称找到对应的 roleId
         const role = roleOptions.value.find(opt => opt.roleName === r)
         return role?.roleId || r
       }
-      return r.roleId || r.id
+      return (r as any).roleId || (r as any).id
     })
   }
   Object.assign(userForm, {

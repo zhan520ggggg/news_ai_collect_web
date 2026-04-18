@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { authApi } from '@/api'
-import type { UserResponseDto, MenuItemDto } from '@/api'
+import type { UserResponseDto, MenuTreeDto } from '@/api'
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(localStorage.getItem('token'))
   const user = ref<UserResponseDto | null>(null)
   const roles = ref<string[]>([])
-  const menus = ref<MenuItemDto[]>([])
+  const menus = ref<MenuTreeDto[]>([])
 
   // 标准化角色名称（映射到有效的UserRole类型）
   const normalizeRole = (role: string): string => {
@@ -69,19 +69,19 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = computed(() => !!token.value)
   const userRoles = computed(() => roles.value)
 
-  const login = async (username: string, password: string) => {
+  const login = async (userName: string, password: string) => {
     try {
-      const response = await authApi.login({ username, password })
+      const response = await authApi.login({ userName, password })
 
       if (response.code === 0) {
         // 类型断言确保 TypeScript 知道正确的类型
         const loginData = response.data as any
         const { token: authToken, user: userData, menus, roles: rawRoles } = loginData
 
-        // 确保 username 字段存在（兼容后端返回的 userName）
+        // 确保 username 字段存在（兼容前端代码）
         const normalizedUserData = {
           ...userData,
-          username: userData.username || userData.userName || ''
+          username: userData.userName || userData.username || ''
         }
 
         // 规范化角色

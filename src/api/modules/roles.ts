@@ -1,24 +1,7 @@
 import request from '../request'
-import type { ApiResponse } from '../request'
+import type { ApiResponse, RoleMenuResponseDto, AssignMenusDto, CreateRoleDto, UpdateRoleDto, RoleResponseDto } from '../types'
 
-// 角色菜单响应
-export interface RoleMenuResponseDto {
-  roleId: string
-  roleName: string | null
-  roleDisplayName: string | null
-  menuIds: string[] | null
-}
-
-// 分配菜单DTO
-export interface AssignMenusDto {
-  menuIds: string[] | null
-}
-
-// 创建/更新角色DTO
-export interface RoleDto {
-  name: string
-  displayName: string
-}
+export type { RoleMenuResponseDto, AssignMenusDto, CreateRoleDto, UpdateRoleDto, RoleResponseDto } from '../types'
 
 export const rolesApi = {
   // 获取所有角色（含菜单Id列表）
@@ -37,13 +20,13 @@ export const rolesApi = {
   },
 
   // 创建角色
-  createRole(params: RoleDto) {
-    return request.post<ApiResponse<RoleMenuResponseDto>>('/api/roles', params)
+  createRole(params: CreateRoleDto) {
+    return request.post<ApiResponse<RoleResponseDto>>('/api/roles', params)
   },
 
   // 更新角色
-  updateRole(id: string, params: RoleDto) {
-    return request.put<ApiResponse<RoleMenuResponseDto>>(`/api/roles/${id}`, params)
+  updateRole(id: string, params: UpdateRoleDto) {
+    return request.put<ApiResponse<RoleResponseDto>>(`/api/roles/${id}`, params)
   },
 
   // 删除角色

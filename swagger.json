@@ -17,6 +17,7 @@
         ],
         "summary": "用户登录",
         "requestBody": {
+          "description": "登录信息，包含用户名和密码",
           "content": {
             "application/json": {
               "schema": {
@@ -37,7 +38,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "登录成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -57,7 +58,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized",
+            "description": "用户名或密码错误",
             "content": {
               "text/plain": {
                 "schema": {
@@ -86,6 +87,7 @@
         ],
         "summary": "用户注册",
         "requestBody": {
+          "description": "注册信息，包含用户名、邮箱、密码、显示名称和角色列表",
           "content": {
             "application/json": {
               "schema": {
@@ -106,7 +108,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "注册成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -121,6 +123,26 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UserResponseDtoApiResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "用户名或邮箱已存在",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -133,10 +155,10 @@
         "tags": [
           "Auth"
         ],
-        "summary": "获取当前用户信息",
+        "summary": "获取当前登录用户的信息",
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "成功获取用户信息",
             "content": {
               "text/plain": {
                 "schema": {
@@ -154,6 +176,142 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "未登录或 Token 无效",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "用户不存在",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/datacollections": {
+      "post": {
+        "tags": [
+          "DataCollections"
+        ],
+        "summary": "创建采集数据",
+        "requestBody": {
+          "description": "采集数据信息，包含标题、时间和内容",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDataCollectionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDataCollectionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDataCollectionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "创建成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataCollectionResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataCollectionResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataCollectionResponseDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "DataCollections"
+        ],
+        "summary": "分页获取采集数据",
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "查询成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataCollectionResponseDtoPagedResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataCollectionResponseDtoPagedResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataCollectionResponseDtoPagedResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -163,10 +321,10 @@
         "tags": [
           "Menus"
         ],
-        "summary": "获取完整菜单树",
+        "summary": "获取完整菜单树（层级结构）",
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "获取成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -196,7 +354,7 @@
         "summary": "获取所有菜单（扁平列表）",
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "获取成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -221,8 +379,9 @@
         "tags": [
           "Menus"
         ],
-        "summary": "创建菜单",
+        "summary": "创建新菜单",
         "requestBody": {
+          "description": "菜单信息，包含名称、路由、类型等",
           "content": {
             "application/json": {
               "schema": {
@@ -243,7 +402,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "创建成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -258,6 +417,26 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/MenuResponseDtoApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "父菜单不存在",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -270,11 +449,12 @@
         "tags": [
           "Menus"
         ],
-        "summary": "根据 ID 获取菜单",
+        "summary": "根据 ID 获取菜单信息",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "菜单 ID",
             "required": true,
             "schema": {
               "type": "string",
@@ -284,7 +464,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "获取成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -304,7 +484,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "菜单不存在",
             "content": {
               "text/plain": {
                 "schema": {
@@ -329,11 +509,12 @@
         "tags": [
           "Menus"
         ],
-        "summary": "更新菜单",
+        "summary": "更新菜单信息",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "菜单 ID",
             "required": true,
             "schema": {
               "type": "string",
@@ -342,6 +523,7 @@
           }
         ],
         "requestBody": {
+          "description": "菜单更新信息",
           "content": {
             "application/json": {
               "schema": {
@@ -362,7 +544,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "更新成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -382,7 +564,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "菜单或父菜单不存在",
             "content": {
               "text/plain": {
                 "schema": {
@@ -407,11 +589,12 @@
         "tags": [
           "Menus"
         ],
-        "summary": "删除菜单",
+        "summary": "删除指定菜单（软删除）",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "菜单 ID",
             "required": true,
             "schema": {
               "type": "string",
@@ -421,7 +604,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "删除成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -440,8 +623,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "菜单下存在子菜单，无法删除",
             "content": {
               "text/plain": {
                 "schema": {
@@ -456,130 +639,12 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/products": {
-      "post": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "创建产品",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProductDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProductDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProductDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoApiResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoApiResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoApiResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "获取所有产品",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoIReadOnlyListApiResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoIReadOnlyListApiResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoIReadOnlyListApiResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/products/{id}": {
-      "get": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "根据 ID 获取产品",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoApiResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoApiResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoApiResponse"
                 }
               }
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "菜单不存在",
             "content": {
               "text/plain": {
                 "schema": {
@@ -594,174 +659,6 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "更新产品",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProductDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProductDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProductDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoApiResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoApiResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoApiResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "删除产品",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/products/paged": {
-      "get": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "分页获取产品",
-        "parameters": [
-          {
-            "name": "PageNumber",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "PageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoPagedResponseApiResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoPagedResponseApiResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseDtoPagedResponseApiResponse"
                 }
               }
             }
@@ -774,10 +671,10 @@
         "tags": [
           "Roles"
         ],
-        "summary": "获取所有角色（含菜单 Id 列表）",
+        "summary": "获取所有角色及其关联的菜单 ID 列表",
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "获取成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -797,6 +694,54 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "创建新角色",
+        "requestBody": {
+          "description": "角色信息，包含角色名称、显示名称和描述",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "创建成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleResponseDtoApiResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleResponseDtoApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleResponseDtoApiResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/roles/{id}/menus": {
@@ -804,11 +749,12 @@
         "tags": [
           "Roles"
         ],
-        "summary": "获取指定角色的菜单",
+        "summary": "获取指定角色的菜单 ID 列表",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "角色 ID",
             "required": true,
             "schema": {
               "type": "string",
@@ -818,7 +764,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "获取成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -838,7 +784,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "角色不存在",
             "content": {
               "text/plain": {
                 "schema": {
@@ -863,11 +809,12 @@
         "tags": [
           "Roles"
         ],
-        "summary": "为角色分配菜单",
+        "summary": "为指定角色分配菜单权限",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "角色 ID",
             "required": true,
             "schema": {
               "type": "string",
@@ -876,6 +823,7 @@
           }
         ],
         "requestBody": {
+          "description": "菜单 ID 列表",
           "content": {
             "application/json": {
               "schema": {
@@ -896,7 +844,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "分配成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -916,7 +864,132 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "角色或菜单不存在",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/roles/{id}": {
+      "put": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "更新角色信息（部分更新）",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "角色 ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "角色更新信息，可包含名称、显示名称和描述",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "更新成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleResponseDtoApiResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleResponseDtoApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleResponseDtoApiResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "角色不存在",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Roles"
+        ],
+        "summary": "删除指定角色（软删除）",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "角色 ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "删除成功"
+          },
+          "404": {
+            "description": "角色不存在",
             "content": {
               "text/plain": {
                 "schema": {
@@ -943,8 +1016,9 @@
         "tags": [
           "Users"
         ],
-        "summary": "创建用户",
+        "summary": "创建新用户",
         "requestBody": {
+          "description": "用户信息，包含用户名、邮箱、密码和角色列表",
           "content": {
             "application/json": {
               "schema": {
@@ -965,7 +1039,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "创建成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -983,6 +1057,26 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "用户名或邮箱已存在",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
         }
       },
@@ -990,10 +1084,10 @@
         "tags": [
           "Users"
         ],
-        "summary": "获取所有用户",
+        "summary": "获取所有用户列表",
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "获取成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1020,11 +1114,12 @@
         "tags": [
           "Users"
         ],
-        "summary": "根据 ID 获取用户",
+        "summary": "根据 ID 获取用户信息",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "用户 ID",
             "required": true,
             "schema": {
               "type": "string",
@@ -1034,7 +1129,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "获取成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1054,7 +1149,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "用户不存在",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1079,11 +1174,12 @@
         "tags": [
           "Users"
         ],
-        "summary": "更新用户",
+        "summary": "更新用户信息（部分更新）",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "用户 ID",
             "required": true,
             "schema": {
               "type": "string",
@@ -1092,6 +1188,7 @@
           }
         ],
         "requestBody": {
+          "description": "用户更新信息，可包含用户名、邮箱、显示名称和角色列表",
           "content": {
             "application/json": {
               "schema": {
@@ -1112,7 +1209,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "更新成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1132,7 +1229,27 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "用户不存在",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "用户名或邮箱已存在",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1157,11 +1274,12 @@
         "tags": [
           "Users"
         ],
-        "summary": "删除用户",
+        "summary": "删除指定用户（软删除）",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "用户 ID",
             "required": true,
             "schema": {
               "type": "string",
@@ -1171,10 +1289,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "删除成功"
           },
           "404": {
-            "description": "Not Found",
+            "description": "用户不存在",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1201,7 +1319,7 @@
         "tags": [
           "Users"
         ],
-        "summary": "分页获取用户",
+        "summary": "分页获取用户列表",
         "parameters": [
           {
             "name": "PageNumber",
@@ -1222,7 +1340,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "获取成功",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1294,6 +1412,25 @@
         },
         "additionalProperties": false
       },
+      "CreateDataCollectionDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateMenuDto": {
         "type": "object",
         "properties": {
@@ -1332,31 +1469,20 @@
         },
         "additionalProperties": false
       },
-      "CreateProductDto": {
+      "CreateRoleDto": {
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
             "nullable": true
           },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
           "description": {
             "type": "string",
             "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "stock": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "category": {
-            "type": "string",
-            "nullable": true
-          },
-          "isPublished": {
-            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -1383,6 +1509,82 @@
           "displayName": {
             "type": "string",
             "nullable": true
+          },
+          "roleIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DataCollectionResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DataCollectionResponseDtoPagedResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataCollectionResponseDto"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "hasPrevious": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "hasNext": {
+            "type": "boolean",
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -1429,7 +1631,8 @@
           "roles": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             },
             "nullable": true
           }
@@ -1643,153 +1846,6 @@
         },
         "additionalProperties": { }
       },
-      "ProductResponseDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "stock": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "category": {
-            "type": "string",
-            "nullable": true
-          },
-          "isPublished": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ProductResponseDtoApiResponse": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/ProductResponseDto"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ProductResponseDtoIReadOnlyListApiResponse": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductResponseDto"
-            },
-            "nullable": true
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ProductResponseDtoPagedResponse": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductResponseDto"
-            },
-            "nullable": true
-          },
-          "totalCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
-          },
-          "hasPrevious": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "hasNext": {
-            "type": "boolean",
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ProductResponseDtoPagedResponseApiResponse": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/ProductResponseDtoPagedResponse"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
       "RegisterDto": {
         "required": [
           "email",
@@ -1817,6 +1873,13 @@
           "displayName": {
             "maxLength": 100,
             "type": "string",
+            "nullable": true
+          },
+          "roleIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           }
         },
@@ -1894,6 +1957,58 @@
         },
         "additionalProperties": false
       },
+      "RoleResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RoleResponseDtoApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/RoleResponseDto"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdateMenuDto": {
         "type": "object",
         "properties": {
@@ -1935,33 +2050,19 @@
         },
         "additionalProperties": false
       },
-      "UpdateProductDto": {
+      "UpdateRoleDto": {
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
             "nullable": true
           },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
           "description": {
             "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "stock": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "category": {
-            "type": "string",
-            "nullable": true
-          },
-          "isPublished": {
-            "type": "boolean",
             "nullable": true
           }
         },
@@ -1984,6 +2085,13 @@
           },
           "displayName": {
             "type": "string",
+            "nullable": true
+          },
+          "roleIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           }
         },
@@ -2022,6 +2130,13 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time",
+            "nullable": true
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           }
         },

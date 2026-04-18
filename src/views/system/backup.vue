@@ -310,7 +310,6 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Refresh } from '@element-plus/icons-vue'
 
-const loading = ref(false)
 const tasksLoading = ref(false)
 const backupLoading = ref(false)
 const manualBackupDialogVisible = ref(false)

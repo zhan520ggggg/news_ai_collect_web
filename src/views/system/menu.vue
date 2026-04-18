@@ -231,7 +231,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Refresh, MoreFilled, Plus, Edit, Delete } from '@element-plus/icons-vue'
+import { Refresh, MoreFilled } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules, TreeInstance } from 'element-plus'
 import { menusApi } from '@/api'
 import type { MenuTreeDto, CreateMenuDto, UpdateMenuDto } from '@/api'
@@ -264,7 +264,9 @@ const menuForm = reactive<CreateMenuDto & { id?: string }>({
   icon: '',
   route: '',
   sort: 0,
-  parentId: ''
+  parentId: '',
+  type: 1,
+  visible: true
 })
 
 const treeProps = {
@@ -286,7 +288,7 @@ const fetchMenuTree = () => {
   loading.value = true
   menusApi.getMenuTree().then(response => {
     if (response.code === 0) {
-      menuTreeData.value = response.data
+      menuTreeData.value = response.data || []
     } else {
       ElMessage.error(response.message || '获取菜单树失败')
     }
@@ -299,10 +301,6 @@ const fetchMenuTree = () => {
 
 const handleRefresh = () => {
   fetchMenuTree()
-}
-
-const handleNodeDblClick = (_data: any) => {
-  // 双击事件由模板中的 @dblclick 处理
 }
 
 const toggleExpand = () => {

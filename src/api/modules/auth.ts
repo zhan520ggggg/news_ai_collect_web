@@ -1,56 +1,7 @@
 import request from '../request'
-import type { ApiResponse } from '../request'
+import type { ApiResponse, LoginDto, RegisterDto, LoginResponseDto, UserResponseDto } from '../types'
 
-// 登录DTO
-export interface LoginDto {
-  username: string
-  password: string
-}
-
-// 登录响应DTO
-export interface LoginResponseDto {
-  token: string
-  expiresAt: string
-  user: UserResponseDto
-  menus: MenuItemDto[]
-  roles: string[]
-}
-
-// 注册DTO
-export interface RegisterDto {
-  username: string
-  password: string
-  email: string
-  phone?: string
-}
-
-// 菜单项DTO
-export interface MenuItemDto {
-  id: string
-  code: string
-  name: string
-  parentId: string | null
-  icon: string | null
-  route: string | null
-  type: number
-  sort: number
-  children: MenuItemDto[]
-}
-
-// 用户响应DTO
-export interface UserResponseDto {
-  id: string
-  // 兼容后端返回的 userName 和前端的 username
-  username?: string
-  userName?: string
-  email: string
-  phone?: string | null
-  role?: string
-  displayName?: string
-  isActive?: boolean
-  createdAt: string
-  updatedAt: string | null
-}
+export type { LoginDto, RegisterDto, LoginResponseDto, UserResponseDto } from '../types'
 
 export const authApi = {
   // 用户登录

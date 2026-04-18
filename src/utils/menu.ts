@@ -1,4 +1,4 @@
-import type { MenuItemDto } from '@/api'
+import type { MenuTreeDto } from '@/api'
 
 // Element Plus 菜单项接口
 export interface MenuItem {
@@ -20,7 +20,7 @@ export interface MenuItem {
  * @param menuData 后端返回的菜单数据
  * @returns Element Plus 菜单项数组
  */
-export function transformMenuData(menuData: MenuItemDto[]): MenuItem[] {
+export function transformMenuData(menuData: MenuTreeDto[]): MenuItem[] {
   if (!menuData || menuData.length === 0) {
     return []
   }
@@ -73,7 +73,7 @@ export function transformMenuData(menuData: MenuItemDto[]): MenuItem[] {
 /**
  * 在菜单树中查找指定路由的菜单项
  */
-function findMenuInTree(menuTree: MenuItemDto[], route: string): MenuItemDto | null {
+function findMenuInTree(menuTree: MenuTreeDto[], route: string): MenuTreeDto | null {
   for (const menu of menuTree) {
     if (menu.route === route) {
       return menu
@@ -97,13 +97,13 @@ function normalizeRoute(route: string | null): string {
 /**
  * 转换扁平结构的单个菜单项
  */
-function transformMenuItemFromFlat(menu: MenuItemDto, allMenus: MenuItemDto[]): MenuItem {
+function transformMenuItemFromFlat(menu: MenuTreeDto, allMenus: MenuTreeDto[]): MenuItem {
   const menuItem: MenuItem = {
-    index: normalizeRoute(menu.route) || `/${menu.code}`,
-    title: menu.name,
+    index: normalizeRoute(menu.route) || `/${menu.code || ''}`,
+    title: menu.name || '',
     icon: mapIconName(menu.icon),
     meta: {
-      title: menu.name,
+      title: menu.name || '',
       icon: menu.icon || undefined
     }
   }
@@ -126,13 +126,13 @@ function transformMenuItemFromFlat(menu: MenuItemDto, allMenus: MenuItemDto[]): 
 /**
  * 转换嵌套结构的单个菜单项
  */
-function transformMenuItemFromNested(menu: MenuItemDto): MenuItem {
+function transformMenuItemFromNested(menu: MenuTreeDto): MenuItem {
   const menuItem: MenuItem = {
-    index: normalizeRoute(menu.route) || `/${menu.code}`,
-    title: menu.name,
+    index: normalizeRoute(menu.route) || `/${menu.code || ''}`,
+    title: menu.name || '',
     icon: mapIconName(menu.icon),
     meta: {
-      title: menu.name,
+      title: menu.name || '',
       icon: menu.icon || undefined
     }
   }

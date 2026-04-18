@@ -585,7 +585,7 @@ const handleRefresh = () => {
   ElMessage.success('通知列表已刷新')
 }
 
-const handleTabChange = (tab: string) => {
+const handleTabChange = (_tab: string | number | boolean | undefined) => {
   currentPage.value = 1
 }
 
@@ -704,11 +704,11 @@ const handleSendNotification = () => {
   })
 }
 
-const handleFileChange = (file: UploadFile, fileList: UploadFiles) => {
+const handleFileChange = (_file: UploadFile, fileList: UploadFiles) => {
   sendForm.files = fileList as UploadFile[]
 }
 
-const handleFileRemove = (file: UploadFile, fileList: UploadFiles) => {
+const handleFileRemove = (_file: UploadFile, fileList: UploadFiles) => {
   sendForm.files = fileList as UploadFile[]
 }
 

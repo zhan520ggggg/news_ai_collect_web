@@ -1,4 +1,4 @@
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import type { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { useAuthStore } from '@/store/modules/auth'
@@ -31,20 +31,28 @@ export interface PagedResponse<T> {
   hasNext: boolean
 }
 
-const service: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+// 扩展 AxiosInstance 类型，使其返回我们拦截器处理后的类型
+interface CustomAxiosInstance extends Omit<AxiosInstance, 'get' | 'post' | 'put' | 'delete'> {
+  get<T = any>(url: string, config?: any): Promise<T>
+  post<T = any>(url: string, data?: any, config?: any): Promise<T>
+  put<T = any>(url: string, data?: any, config?: any): Promise<T>
+  delete<T = any>(url: string, config?: any): Promise<T>
+}
+
+const service = axios.create({
+  baseURL: (import.meta.env as any).VITE_API_BASE_URL || '/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
-})
+}) as CustomAxiosInstance
 
 // 请求拦截器
 service.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {
     const authStore = useAuthStore()
     if (authStore.token) {
-      config.headers = config.headers || {}
+      config.headers = config.headers || ({} as any)
       config.headers.Authorization = `Bearer ${authStore.token}`
     }
     return config

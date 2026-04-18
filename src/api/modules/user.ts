@@ -1,44 +1,14 @@
 import request from '../request'
-import type { ApiResponse, PagedRequest, PagedResponse } from '../request'
+import type { ApiResponse, PagedRequest, PagedResponse, UserResponseDto, CreateUserDto, UpdateUserDto } from '../types'
 
-// 角色信息
+export type { UserResponseDto, CreateUserDto, UpdateUserDto } from '../types'
+
+// 角色信息 - 为了兼容现有代码保留
 export interface UserRole {
+  id?: string
   roleId: string
-  roleName: string | null
-  roleDisplayName: string | null
-}
-
-// 用户响应DTO
-export interface UserResponseDto {
-  id: string
-  userName: string
-  email: string
-  phone: string
-  displayName: string
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
-  roles?: UserRole[]
-}
-
-// 创建用户DTO
-export interface CreateUserDto {
-  userName: string
-  password: string
-  email: string
-  phone?: string
-  displayName?: string
-  roleIds?: string[]
-}
-
-// 更新用户DTO
-export interface UpdateUserDto {
-  userName?: string
-  email?: string
-  phone?: string
-  displayName?: string
-  isActive?: boolean
-  roleIds?: string[]
+  roleName?: string | null
+  roleDisplayName?: string | null
 }
 
 export const userApi = {
