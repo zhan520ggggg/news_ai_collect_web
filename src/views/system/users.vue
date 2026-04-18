@@ -67,17 +67,19 @@
         </el-table-column>
         <el-table-column label="角色">
           <template #default="scope">
-            <el-tag
-              v-for="role in scope.row.roles"
-              :key="role.roleId"
-              size="small"
-              type="info"
-              class="role-tag"
-            >
-              {{ role.roleDisplayName || role.roleName }}
-            </el-tag>
+            <template v-if="scope.row.roles && scope.row.roles.length > 0">
+              <el-tag
+                v-for="(role, index) in scope.row.roles"
+                :key="index"
+                size="small"
+                type="info"
+                class="role-tag"
+              >
+                {{ typeof role === 'string' ? role : (role.roleDisplayName || role.roleName) }}
+              </el-tag>
+            </template>
             <span
-              v-if="!scope.row.roles || scope.row.roles.length === 0"
+              v-else
               class="no-role"
             >-</span>
           </template>
@@ -197,7 +199,7 @@
             <el-option
               v-for="role in roleOptions"
               :key="role.roleId"
-              :label="role.roleDisplayName || role.roleName"
+              :label="role.roleName"
               :value="role.roleId"
             />
           </el-select>
@@ -269,10 +271,10 @@ onMounted(() => {
 const fetchRoles = () => {
   rolesApi.getAllRoles().then(response => {
     if (response.code === 0 && response.data) {
+      // 后端返回的 roles 是字符串数组（角色名称），所以选项值也用字符串
       roleOptions.value = response.data.map(role => ({
         roleId: role.roleId,
-        roleName: role.roleName,
-        roleDisplayName: role.roleDisplayName
+        roleName: role.roleDisplayName || role.roleName || ''
       }))
     }
   }).catch(error => {
@@ -329,6 +331,17 @@ const handleAdd = () => {
 
 const handleEdit = (row: User) => {
   dialogTitle.value = '编辑用户'
+  // 处理 roles：后端返回字符串数组如 ["采集管理员"]，需要根据角色名称找到 roleId
+  const getRoleIds = () => {
+    return (row.roles || []).map(r => {
+      if (typeof r === 'string') {
+        // 根据角色名称找到对应的 roleId
+        const role = roleOptions.value.find(opt => opt.roleName === r)
+        return role?.roleId || r
+      }
+      return r.roleId || r.id
+    })
+  }
   Object.assign(userForm, {
     id: row.id,
     userName: row.userName,
@@ -337,7 +350,7 @@ const handleEdit = (row: User) => {
     phone: row.phone,
     displayName: row.displayName || '',
     isActive: row.isActive,
-    roleIds: row.roles?.map(r => r.roleId) || []
+    roleIds: getRoleIds()
   })
   dialogVisible.value = true
   nextTick(() => {
