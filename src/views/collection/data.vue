@@ -42,7 +42,7 @@
         <el-table-column
           prop="title"
           label="标题"
-          min-width="150"
+          min-width="30"
         />
         <el-table-column
           prop="time"
@@ -166,7 +166,7 @@
       title="采集数据详情"
       width="600px"
     >
-      <el-descriptions :column="1" border>
+      <el-descriptions :column="1" border class="detail-box">
         <el-descriptions-item label="标题">
           {{ currentViewData.title }}
         </el-descriptions-item>
@@ -365,6 +365,10 @@ const handleCurrentChange = (val: number) => {
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;
+}
+
+.detail-box :deep(.el-descriptions__label) {
+  white-space: nowrap;
 }
 
 .content-view {
