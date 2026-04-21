@@ -197,72 +197,6 @@
         </el-card>
       </el-tab-pane>
 
-      <!-- 热点采集配置 -->
-      <el-tab-pane
-        label="采集配置"
-        name="collection"
-      >
-        <el-card>
-          <template #header>
-            <div class="card-header">
-              <span>热点采集配置</span>
-            </div>
-          </template>
-          <el-form label-width="200px">
-            <el-form-item label="默认采集间隔时间">
-              <el-input-number
-                v-model="config.collection.defaultInterval"
-                :min="5"
-                :max="60"
-              />
-              <span class="unit">分钟</span>
-            </el-form-item>
-            <el-form-item label="最大并发采集任务数">
-              <el-input-number
-                v-model="config.collection.maxConcurrentTasks"
-                :min="1"
-                :max="20"
-              />
-            </el-form-item>
-            <el-form-item label="采集超时时间">
-              <el-input-number
-                v-model="config.collection.timeout"
-                :min="10"
-                :max="120"
-              />
-              <span class="unit">秒</span>
-            </el-form-item>
-            <el-form-item label="自动去重相似内容">
-              <el-switch v-model="config.collection.autoDeduplicate" />
-            </el-form-item>
-            <el-form-item label="采集关键词过滤">
-              <el-input
-                v-model="config.collection.filterKeywords"
-                type="textarea"
-                :rows="3"
-                placeholder="每行一个关键词，采集时会自动过滤包含这些关键词的内容"
-              />
-            </el-form-item>
-            <el-form-item label="自动分类精度阈值">
-              <el-slider
-                v-model="config.collection.autoClassifyThreshold"
-                :min="0"
-                :max="100"
-                show-input
-              />
-            </el-form-item>
-            <el-form-item label="采集数据保留天数">
-              <el-input-number
-                v-model="config.collection.dataRetentionDays"
-                :min="30"
-                :max="365"
-              />
-              <span class="unit">天</span>
-            </el-form-item>
-          </el-form>
-        </el-card>
-      </el-tab-pane>
-
       <!-- 分析展示配置 -->
       <el-tab-pane
         label="分析配置"
@@ -555,16 +489,6 @@ interface UserConfig {
   lockDuration: number
 }
 
-interface CollectionConfig {
-  defaultInterval: number
-  maxConcurrentTasks: number
-  timeout: number
-  autoDeduplicate: boolean
-  filterKeywords: string
-  autoClassifyThreshold: number
-  dataRetentionDays: number
-}
-
 interface AnalysisThresholds {
   clicks: number
   comments: number
@@ -610,7 +534,6 @@ interface BackupConfig {
 interface Config {
   system: SystemConfig
   user: UserConfig
-  collection: CollectionConfig
   analysis: AnalysisConfig
   notification: NotificationConfig
   backup: BackupConfig
@@ -635,15 +558,6 @@ const defaultConfig: Config = {
     loginLockEnabled: true,
     maxLoginAttempts: 5,
     lockDuration: 30
-  },
-  collection: {
-    defaultInterval: 30,
-    maxConcurrentTasks: 5,
-    timeout: 30,
-    autoDeduplicate: true,
-    filterKeywords: '',
-    autoClassifyThreshold: 70,
-    dataRetentionDays: 90
   },
   analysis: {
     refreshInterval: 60,
